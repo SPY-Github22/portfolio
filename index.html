@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudarshan Pai Y — AI & Software Developer</title>
+    <meta name="description" content="Portfolio of Sudarshan Pai Y — a computer science student and developer building practical AI-powered tools that solve real-world problems.">
+    <meta name="keywords" content="AI Developer, Software Developer, Machine Learning, Python, Web Development, Sudarshan Pai Y">
+    <meta name="author" content="Sudarshan Pai Y">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Sudarshan Pai Y — AI & Software Developer">
+    <meta property="og:description" content="Computer science student building AI-powered tools that solve real-world problems.">
+    <meta property="og:type" content="website">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- ==================== NAVIGATION ==================== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#hero" class="nav-logo">
+                <span class="logo-bracket">&lt;</span>SPY<span class="logo-bracket">/&gt;</span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#hero" class="nav-link active">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="https://drive.google.com/drive/folders/1Nc41EAoSYEwZw_NbVhM9K1sZl9elxiAY?usp=sharing" target="_blank" rel="noopener" class="btn btn-outline btn-sm">
+                    <i class="fas fa-file-alt"></i> Resume
+                </a>
+                <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==================== HERO ==================== -->
+    <section class="hero" id="hero">
+        <canvas id="particleCanvas"></canvas>
+        <div class="hero-content">
+            <div class="hero-badge reveal">
+                <i class="fas fa-robot"></i> AI & Software Developer
+            </div>
+            <h1 class="hero-title reveal">
+                Hi, I'm <span class="gradient-text">Sudarshan Pai Y</span>
+            </h1>
+            <p class="hero-subtitle reveal">
+                <span id="typewriter"></span><span class="cursor">|</span>
+            </p>
+            <p class="hero-description reveal">
+                First-year BTech CSE student passionate about building practical AI-powered tools that solve real-world problems.
+            </p>
+            <div class="hero-cta reveal">
+                <a href="#contact" class="btn btn-primary">
+                    <i class="fas fa-paper-plane"></i> Get in Touch
+                </a>
+                <a href="#about" class="btn btn-glass">
+                    <i class="fas fa-user"></i> About Me
+                </a>
+            </div>
+            <div class="hero-socials reveal">
+                <a href="https://github.com/SPY-Github22" target="_blank" rel="noopener" class="social-link" aria-label="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/sudarshan-pai-y/" target="_blank" rel="noopener" class="social-link" aria-label="LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+            </div>
+        </div>
+        <div class="hero-scroll">
+            <a href="#about" class="scroll-indicator">
+                <span>Scroll</span>
+                <div class="scroll-line"></div>
+            </a>
+        </div>
+    </section>
+
+    <!-- ==================== ABOUT ==================== -->
+    <section class="section about" id="about">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-tag"><i class="fas fa-user"></i> About Me</span>
+                <h2 class="section-title">Turning Ideas into <span class="gradient-text">Intelligent Solutions</span></h2>
+            </div>
+            <div class="about-grid">
+                <div class="about-image reveal">
+                    <div class="image-wrapper">
+                        <div class="image-placeholder">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div class="image-border"></div>
+                        <div class="image-glow"></div>
+                    </div>
+                    <div class="about-stats">
+                        <div class="stat-card">
+                            <span class="stat-number" data-count="10">0</span><span class="stat-plus">+</span>
+                            <span class="stat-label">Projects</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number" data-count="5">0</span><span class="stat-plus">+</span>
+                            <span class="stat-label">Technologies</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-content reveal">
+                    <p class="about-text">
+                        I'm a <strong>computer science student</strong> and developer interested in building practical 
+                        <strong>AI-powered tools</strong> that solve real-world problems. My work focuses on combining 
+                        <strong>machine learning</strong>, data analysis, and web development to create applications that 
+                        are both technically robust and user-friendly.
+                    </p>
+                    <p class="about-text">
+                        One of my key projects is a <strong>Coral Bleaching Prediction Web App</strong>, where I trained 
+                        a machine learning model and deployed it through a Flask interface to predict environmental 
+                        bleaching risks based on user inputs. I enjoy working across the full stack — from designing 
+                        interfaces in Figma to integrating predictive models and deploying working applications.
+                    </p>
+                    <p class="about-text">
+                        Beyond environmental AI, I'm also interested in building <strong>productivity and education tools</strong> 
+                        for students. My interests lie at the intersection of AI, software engineering, and 
+                        problem-solving.
+                    </p>
+                    <div class="about-highlights">
+                        <div class="highlight-item">
+                            <i class="fas fa-brain"></i>
+                            <span>Machine Learning</span>
+                        </div>
+                        <div class="highlight-item">
+                            <i class="fas fa-code"></i>
+                            <span>Full-Stack Dev</span>
+                        </div>
+                        <div class="highlight-item">
+                            <i class="fas fa-leaf"></i>
+                            <span>Environmental AI</span>
+                        </div>
+                        <div class="highlight-item">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>EdTech Tools</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== SKILLS ==================== -->
+    <section class="section skills" id="skills">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-tag"><i class="fas fa-cogs"></i> Skills</span>
+                <h2 class="section-title">My <span class="gradient-text">Tech Stack</span></h2>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-category reveal">
+                    <div class="skill-category-header">
+                        <div class="skill-icon-wrap"><i class="fas fa-laptop-code"></i></div>
+                        <h3>Languages</h3>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">HTML/CSS</span>
+                        <span class="skill-tag">C/C++</span>
+                        <span class="skill-tag">SQL</span>
+                    </div>
+                </div>
+                <div class="skill-category reveal">
+                    <div class="skill-category-header">
+                        <div class="skill-icon-wrap"><i class="fas fa-brain"></i></div>
+                        <h3>AI / ML</h3>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Scikit-learn</span>
+                        <span class="skill-tag">Pandas</span>
+                        <span class="skill-tag">NumPy</span>
+                        <span class="skill-tag">Matplotlib</span>
+                        <span class="skill-tag">Data Analysis</span>
+                    </div>
+                </div>
+                <div class="skill-category reveal">
+                    <div class="skill-category-header">
+                        <div class="skill-icon-wrap"><i class="fas fa-server"></i></div>
+                        <h3>Web & Tools</h3>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Flask</span>
+                        <span class="skill-tag">Git & GitHub</span>
+                        <span class="skill-tag">Figma</span>
+                        <span class="skill-tag">VS Code</span>
+                        <span class="skill-tag">REST APIs</span>
+                    </div>
+                </div>
+                <div class="skill-category reveal">
+                    <div class="skill-category-header">
+                        <div class="skill-icon-wrap"><i class="fas fa-lightbulb"></i></div>
+                        <h3>Interests</h3>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Machine Learning</span>
+                        <span class="skill-tag">Full-Stack Dev</span>
+                        <span class="skill-tag">Environmental AI</span>
+                        <span class="skill-tag">EdTech</span>
+                        <span class="skill-tag">Optimization</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== CONTACT ==================== -->
+    <section class="section contact" id="contact">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-tag"><i class="fas fa-envelope"></i> Contact</span>
+                <h2 class="section-title">Let's <span class="gradient-text">Connect</span></h2>
+                <p class="section-subtitle">Feel free to reach out for collaborations, opportunities, or just to say hello!</p>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-cards reveal">
+                    <a href="https://github.com/SPY-Github22" target="_blank" rel="noopener" class="contact-card">
+                        <div class="contact-card-icon"><i class="fab fa-github"></i></div>
+                        <h3>GitHub</h3>
+                        <p>SPY-Github22</p>
+                        <span class="contact-card-arrow"><i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/sudarshan-pai-y/" target="_blank" rel="noopener" class="contact-card">
+                        <div class="contact-card-icon linkedin"><i class="fab fa-linkedin-in"></i></div>
+                        <h3>LinkedIn</h3>
+                        <p>Sudarshan Pai Y</p>
+                        <span class="contact-card-arrow"><i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    <a href="https://drive.google.com/drive/folders/1Nc41EAoSYEwZw_NbVhM9K1sZl9elxiAY?usp=sharing" target="_blank" rel="noopener" class="contact-card">
+                        <div class="contact-card-icon resume"><i class="fas fa-file-alt"></i></div>
+                        <h3>Resume</h3>
+                        <p>View my resume</p>
+                        <span class="contact-card-arrow"><i class="fas fa-arrow-right"></i></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span class="logo-bracket">&lt;</span>SPY<span class="logo-bracket">/&gt;</span>
+                </div>
+                <p class="footer-text">Designed & Built by Sudarshan Pai Y</p>
+                <div class="footer-socials">
+                    <a href="https://github.com/SPY-Github22" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/sudarshan-pai-y/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <p class="footer-copy">&copy; 2026 Sudarshan Pai Y. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
