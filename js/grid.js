@@ -104,7 +104,7 @@ function renderCards(filter = 'ALL') {
     }
     
     card.innerHTML = `
-      <div class="gd-card-bg" style="background: ${bgCss}"></div>
+      <div class="gd-card-art" style="background: ${bgCss}"></div>
       <div class="gd-status-badge ${p.status.toLowerCase().replace(' ', '-')}">${p.status}</div>
       <span class="gd-card-genre">${p.genre}</span>
       <div class="gd-card-scrim">
