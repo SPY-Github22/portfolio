@@ -1,0 +1,2 @@
+﻿  document.body.addEventListener('mousedown', () => cursorRing.classList.add('cursor-click'));
+  document.body.addEventListener('mouseup', () => cursorRing.classList.remove('cursor-click'));

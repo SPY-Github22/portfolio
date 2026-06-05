@@ -1,0 +1,37 @@
+# Errors Faced and Resolutions
+
+## 1. Cursor Invisible After Refactoring
+- **Reason:** In `style.css`, `.gd-dot` and `.gd-ring` have `opacity: 0` by default. When the code was manually refactored, the JavaScript logic that fades the cursor in on mouse movement was completely lost. Because the logic was gone, the cursor stayed at `opacity: 0` permanently.
+- **Fix:** Re-wrote the missing cursor tracking logic into a new `cursor.js` file and added a check to set `opacity = 1` as soon as the mouse moves.
+
+## 2. Cursor Offset (Not Centered on Mouse)
+- **Reason:** In `cursor.js`, I initially updated the cursor position by overriding its CSS transform using `cursorDot.style.transform = translate(x, y)`. However, the CSS file already defined `transform: translate(-50%, -50%)` to perfectly center the dot/ring on the mouse pointer. Overriding the transform property wiped out the `-50%, -50%` offset, causing the cursor to trail below and to the right of the mouse pointer.
+- **Fix:** Instead of modifying `transform` in JavaScript, I updated the logic to modify the `left` and `top` properties (`cursorDot.style.left = mouseX + 'px'`). This allowed the original CSS centering transform to remain intact.
+
+## 3. "Click Anywhere to Initialize" Prompt Unclickable
+- **Reason:** When the HTML was manually refactored, the `initPrompt` overlay was added with `z-index: 10` covering the entire screen, but no JavaScript click listener was ever written for it. Because it covered the screen, it intercepted all clicks, meaning the user could only highlight the text instead of progressing.
+- **Fix:** Wrote a click event listener in `core.js` targeting `initPrompt` to fade it out, initialize the Web Audio context, and trigger the boot sequence. Added `user-select: none` to prevent accidental text highlighting.
+
+## 4. Intro Sequence Logic Inverted
+- **Reason:** The boot sequence (where the terminal prints "INITIALIZING CORE SYSTEMS... [OK]") was incorrectly tied to the "PRESS ENTER" button click instead of the initial "CLICK ANYWHERE" click. This meant the user wouldn't see the terminal load up until *after* they hit Enter.
+- **Fix:** Separated the GSAP timeline logic. Clicking the initial prompt now triggers the terminal boot sequence, and only when that finishes does the "PRESS ENTER" button appear.
+
+## 5. Cards Not Loading in Grid View
+- **Reason:** In the `triggerReveal()` function, the script tried to find all elements with the class `.sr-hide` to fade them in, and *afterward* called `renderCards('ALL')`. Since the cards were generated *after* the script searched for them, they were created with `opacity: 0` but never told to fade in.
+- **Fix:** Flipped the execution order. `renderCards('ALL')` is now called first to place the cards in the DOM, followed by the GSAP logic to find all `.sr-hide` elements and gracefully fade them in.
+
+## 6. Syntax Errors from PowerShell Command Line (The Root Cause of "Clicking is gone again")
+- **Reason:** To inject the missing logic quickly, I used PowerShell terminal commands to generate and append code to `core.js`. However, JavaScript relies heavily on backticks (\`) and dollar signs (\$) for template literals (e.g., \`Hello \${name}\`). PowerShell *also* uses backticks and dollar signs for its own variable interpolation. When the command ran, PowerShell stripped the JavaScript formatting characters out of the file, resulting in invalid, un-parsable JavaScript. Because `core.js` had a syntax error, the browser aborted loading the file entirely, immediately breaking the Intro Screen click listener and the grid rendering again.
+- **Fix:** (Pending Execution) I will stop using terminal string injection to modify complex JavaScript. The files will be completely rewritten using robust file-writing tools to ensure syntax integrity, and the code will be separated into clean, modular files.
+
+## 7. Timeline Loop Crash & Missing Sparkles
+- **Reason:** The JavaScript scrolljacking logic attempted to spawn fire particles and append them to an SVG group element with the ID `#tlFireTip`. However, this group was never created in the SVG structure in the HTML. This caused a `TypeError: Cannot read properties of null (reading 'appendChild')` inside the `emitFireParticle` function. This crash aborted the GSAP timeline animation loop midway, permanently locking the user from scrolling past the first step and preventing any white sparkles from appearing.
+- **Fix:** Added the missing `<g id="tlFireTip"></g>` into the HTML SVG structure inside the `.tl-svg-wrapper` block to act as the particle container.
+
+## 8. Double Transformation of Timeline Sparkles
+- **Reason:** After fixing the crash, the white sparkles were rendering at twice the distance from the line tip. This occurred because the script was spawning the particles at absolute coordinates matching the tip of the line (`pt.x`, `pt.y`) AND simultaneously using GSAP to translate the entire container group (`#tlFireTip`) to those exact same coordinates. These movements stacked, pushing the particles off target.
+- **Fix:** Removed the GSAP transformation on the `#tlFireTip` container group so it remains static at `(0,0)`. Because the particles themselves are spawned at absolute coordinates, they now perfectly follow the line tip without being doubled.
+
+## 9. Script Truncation & Deleted Cursor Logic
+- **Reason:** When splitting `index.html` into modular CSS and JS components using a naive string splitting node script (`html.split('<script>')[1]`), the script accidentally targeted the very first script tag (which loaded `gsap.min.js`) instead of the main script logic. This caused major truncation, completely omitting the bottom half of the script file including the crucial cursor tracking logic, leading to the cursor disappearing again.
+- **Fix:** Used a robust script parsing strategy to safely recover the script from backup artifacts and re-integrate the original logic into the `js/main.js` modular file.

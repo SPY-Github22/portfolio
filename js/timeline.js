@@ -1,0 +1,357 @@
+// Timeline & Scrolljacking Logic
+let timelineInitialized = false;
+let scrubProxy, currentScrubStep, applyStepVisuals;
+
+function initTimeline() {
+  if(timelineInitialized) return;
+  timelineInitialized = true;
+
+  const tlNodesContainer = document.getElementById('tlNodes');
+  const tlPath = document.getElementById('tlPath');
+  const tlPathGhost = document.getElementById('tlPathGhost');
+  const tlSvg = document.getElementById('tlSvg');
+  const tlContainer = document.getElementById('tlContainer');
+  const tlScrollLayer = document.getElementById('tlScrollLayer');
+  const timelineSection = document.getElementById('timeline');
+  
+  if (!tlNodesContainer || !tlPath || typeof milestones === 'undefined') return;
+  
+  let currentY = 0;
+  const pathPoints = [];
+  const svgWidth = 600;
+  const centerX = svgWidth / 2;
+  const steps = [];
+  
+  // Start Path
+  pathPoints.push(`M ${centerX} 0`);
+  currentY += 100;
+  pathPoints.push(`L ${centerX} ${currentY}`);
+  steps.push({ y: 0, length: 0, wrapper: null, type: 'start' });
+  
+  let side = -1;
+  
+  milestones.forEach((item, index) => {
+    if(item.type === 'milestone') {
+      currentY += 150;
+      pathPoints.push(`L ${centerX} ${currentY}`);
+      
+      const m = document.createElement('div');
+      m.className = `tl-milestone ${side === -1 ? 'left' : 'right'}`;
+      m.style.top = `${currentY}px`;
+      m.innerHTML = `
+        <div class="tl-milestone-dot"></div>
+        <div class="tl-milestone-text">${item.year} // ${item.text}</div>
+      `;
+      tlNodesContainer.appendChild(m);
+      gsap.set(m, { opacity: 0, autoAlpha: 0 });
+      
+      steps.push({ y: currentY, wrapper: m, type: 'milestone' });
+    } else if(item.type === 'project') {
+      const p = projects.find(pr => pr.id === item.id);
+      if(!p) return;
+      
+      const targetX = centerX + (side * 220);
+      currentY += 80;
+      pathPoints.push(`L ${targetX} ${currentY}`);
+      currentY += 170;
+      pathPoints.push(`L ${targetX} ${currentY}`);
+      
+      const wrapper = document.createElement('div');
+      wrapper.className = `tl-node-wrapper ${side === -1 ? 'left' : 'right'}`;
+      wrapper.style.top = `${currentY}px`;
+      wrapper.style.transform = "translateY(-50%)";
+      
+      const accentColor = p.palette[2];
+      wrapper.innerHTML = `
+        <div class="tl-illumination" style="--node-accent: ${accentColor}"></div>
+        <div class="tl-connector"></div>
+        <div class="tl-node gd-hoverable" style="--node-accent: ${accentColor}">
+          <div class="tl-node-header">
+            <div class="tl-node-index">${p.index}</div>
+            <div class="tl-node-year">${p.year} // ${p.role}</div>
+            <div class="tl-node-genre">${p.genre}</div>
+          </div>
+          <div class="tl-node-title">${p.title}</div>
+          <div class="tl-node-desc">${p.description}</div>
+          <div class="tl-node-tech">${p.tech.map(t => `<span class="tl-node-tech-tag">${t}</span>`).join('')}</div>
+          <div class="tl-node-footer">
+            <div class="tl-node-status ${p.status.toLowerCase().replace(' ', '-')}"><span class="tl-node-status-dot"></span>${p.status}</div>
+            <div class="tl-node-action">VIEW PROJECT →</div>
+          </div>
+        </div>
+      `;
+      tlNodesContainer.appendChild(wrapper);
+      gsap.set(wrapper, { opacity: 0, autoAlpha: 0, x: side * -50, scale: 0.95 });
+      
+      const nodeCard = wrapper.querySelector('.tl-node');
+      nodeCard.addEventListener('mouseenter', () => { 
+        document.body.classList.add('cursor-card'); 
+        if (typeof sounds !== 'undefined' && sounds.cardHoverStart) sounds.cardHoverStart(); 
+      });
+      nodeCard.addEventListener('mouseleave', () => { 
+        document.body.classList.remove('cursor-card'); 
+        if (typeof sounds !== 'undefined' && sounds.cardHoverEnd) sounds.cardHoverEnd(); 
+      });
+      nodeCard.addEventListener('click', () => openProject(p.id));
+      
+      steps.push({ y: currentY, wrapper: wrapper, type: 'project', title: p.title, side: side });
+      
+      // Return path to center
+      currentY += 80;
+      pathPoints.push(`L ${centerX} ${currentY}`);
+      side *= -1;
+    }
+  });
+  
+  currentY += 150;
+  pathPoints.push(`L ${centerX} ${currentY}`);
+  steps.push({ y: currentY, wrapper: null, type: 'end' });
+  
+  const pathD = pathPoints.join(' ');
+  tlPath.setAttribute('d', pathD);
+  tlPathGhost.setAttribute('d', pathD);
+  tlSvg.setAttribute('height', currentY);
+  tlContainer.style.height = `${currentY}px`;
+  
+  const pathLength = tlPath.getTotalLength();
+  tlPath.style.strokeDasharray = pathLength;
+  tlPath.style.strokeDashoffset = pathLength;
+  
+  steps.forEach((step, index) => {
+    if (index === steps.length - 1) {
+      step.length = pathLength;
+      return;
+    }
+    let low = 0, high = pathLength, best = 0;
+    for(let i=0; i<20; i++) {
+      let mid = (low + high) / 2;
+      let pt = tlPath.getPointAtLength(mid);
+      if(pt.y < step.y) { low = mid; }
+      else { high = mid; best = mid; }
+    }
+    step.length = best;
+  });
+
+  let lastParticleTime = 0;
+  function emitFireParticle(x, y) {
+    const now = Date.now();
+    if (now - lastParticleTime < 50) return;
+    lastParticleTime = now;
+    
+    const particle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    particle.setAttribute('r', Math.random() * 2 + 1);
+    particle.setAttribute('cx', x + (Math.random() * 8 - 4));
+    particle.setAttribute('cy', y + (Math.random() * 8 - 4));
+    particle.setAttribute('fill', '#ffffff');
+    particle.style.filter = 'drop-shadow(0 0 4px #ffaa00)';
+    
+    const fireTip = document.getElementById('tlFireTip');
+    if (fireTip) {
+      fireTip.appendChild(particle);
+      
+      gsap.to(particle, {
+        attr: { cy: y + 20 + Math.random() * 30, cx: x + (Math.random() * 20 - 10) },
+        opacity: 0,
+        duration: 0.5 + Math.random() * 0.4,
+        ease: 'power1.out',
+        onComplete: () => particle.remove()
+      });
+    }
+  }
+
+  let maxUnlockedStep = 0;
+  let isAnimatingForward = false;
+  
+  scrubProxy = { s: 0 };
+  currentScrubStep = 0;
+  
+  applyStepVisuals = function(s) {
+    const prevIdx = Math.floor(s);
+    const nextIdx = Math.min(steps.length - 1, Math.ceil(s));
+    const frac = s - prevIdx;
+    
+    const lenPrev = steps[prevIdx].length;
+    const lenNext = steps[nextIdx].length;
+    const curLen = lenPrev + (lenNext - lenPrev) * frac;
+    
+    tlPath.style.strokeDashoffset = pathLength - curLen;
+    const pt = tlPath.getPointAtLength(curLen);
+    
+    const tlDot = document.getElementById('tlDot');
+    if (tlDot) {
+      tlDot.setAttribute('cx', pt.x);
+      tlDot.setAttribute('cy', pt.y);
+    }
+    
+    if (isAnimatingForward || Math.abs(frac) > 0.05) {
+      emitFireParticle(pt.x, pt.y);
+    }
+    
+    const vh = window.innerHeight;
+    let camY = pt.y - vh * 0.4;
+    if (camY < 0) camY = 0;
+    gsap.set(tlScrollLayer, { y: -camY });
+    
+    const btnJourneyLabel = document.getElementById('btnJourneyLabel');
+    if (btnJourneyLabel) {
+      if (s >= 1.5) {
+        if(btnJourneyLabel.style.pointerEvents !== 'all') {
+          gsap.to(btnJourneyLabel, { opacity: 1, y: 0, duration: 0.3, onStart: () => btnJourneyLabel.style.pointerEvents = 'all' });
+        }
+      } else {
+        if(btnJourneyLabel.style.pointerEvents !== 'none') {
+          gsap.to(btnJourneyLabel, { opacity: 0, y: -20, duration: 0.3, onComplete: () => btnJourneyLabel.style.pointerEvents = 'none' });
+        }
+      }
+    }
+    
+    const btnTimelineUp = document.getElementById('btnTimelineUp');
+    if (btnTimelineUp) {
+      if (s >= 2.5) {
+        if(btnTimelineUp.style.pointerEvents !== 'all') {
+          gsap.to(btnTimelineUp, { opacity: 1, y: 0, duration: 0.3, onStart: () => btnTimelineUp.style.pointerEvents = 'all' });
+        }
+      } else {
+        if(btnTimelineUp.style.pointerEvents !== 'none') {
+          gsap.to(btnTimelineUp, { opacity: 0, y: -20, duration: 0.3, onComplete: () => btnTimelineUp.style.pointerEvents = 'none' });
+        }
+      }
+    }
+    
+    steps.forEach((step, idx) => {
+      if (!step.wrapper) return;
+      const shouldBeVisible = (idx <= s + 0.1); 
+      const isVisible = step.wrapper.classList.contains('revealed');
+      
+      if (shouldBeVisible && !isVisible) {
+        step.wrapper.classList.add('revealed');
+        step.wrapper.classList.add('lit');
+        if (typeof sounds !== 'undefined' && sounds.uiClick) sounds.uiClick();
+        if(step.type === 'milestone') {
+           gsap.to(step.wrapper, { opacity: 1, autoAlpha: 1, duration: 0.5 });
+        } else if(step.type === 'project') {
+           gsap.to(step.wrapper, { opacity: 1, autoAlpha: 1, x: 0, scale: 1, duration: 0.6, ease: "back.out(1.2)" });
+           const titleEl = step.wrapper.querySelector('.tl-node-title');
+           if (titleEl) scrambleText(titleEl, step.title, 600);
+           const children = step.wrapper.querySelectorAll('.tl-node-desc, .tl-node-tech, .tl-node-footer');
+           gsap.fromTo(children, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, stagger: 0.1, delay: 0.2 });
+        }
+      } else if (!shouldBeVisible && isVisible) {
+        step.wrapper.classList.remove('revealed');
+        step.wrapper.classList.remove('lit');
+        if(step.type === 'project') {
+           gsap.to(step.wrapper, { opacity: 0, autoAlpha: 0, x: step.side * -50, scale: 0.95, duration: 0.4 });
+        } else {
+           gsap.to(step.wrapper, { opacity: 0, autoAlpha: 0, duration: 0.4 });
+        }
+      }
+    });
+  }
+
+  function advanceToNewStep() {
+    if(isAnimatingForward) return;
+    if(maxUnlockedStep >= steps.length - 1) return;
+    
+    isAnimatingForward = true;
+    const targetStep = Math.min(steps.length - 1, maxUnlockedStep + 2);
+    
+    const startLen = steps[maxUnlockedStep].length;
+    const endLen = steps[targetStep].length;
+    const distance = Math.abs(endLen - startLen);
+    const duration = Math.max(0.8, Math.min(2.0, distance / 350));
+    
+    if (typeof sounds !== 'undefined' && sounds.fireBurn) sounds.fireBurn(duration);
+    
+    gsap.to(scrubProxy, {
+      s: targetStep,
+      duration: duration,
+      ease: 'power1.inOut',
+      onUpdate: () => {
+        currentScrubStep = scrubProxy.s;
+        applyStepVisuals(currentScrubStep);
+      },
+      onComplete: () => {
+        maxUnlockedStep = targetStep;
+        isAnimatingForward = false;
+      }
+    });
+  }
+
+  function handleWheel(e) {
+    if(timelineSection.style.display !== 'block') return;
+    if(isAnimatingForward) { e.preventDefault(); return; }
+    if(Math.abs(e.deltaY) < 10) return;
+    
+    const stepDelta = e.deltaY * 0.003; 
+    
+    if(e.deltaY > 0 && currentScrubStep >= maxUnlockedStep - 0.05) {
+      e.preventDefault();
+      advanceToNewStep();
+    } else {
+      e.preventDefault();
+      let targetScrub = currentScrubStep + stepDelta;
+      if(targetScrub < 0) targetScrub = 0;
+      if(targetScrub > maxUnlockedStep) targetScrub = maxUnlockedStep;
+      
+      gsap.to(scrubProxy, {
+        s: targetScrub,
+        duration: 0.15,
+        ease: 'power1.out',
+        onUpdate: () => {
+          currentScrubStep = scrubProxy.s;
+          applyStepVisuals(currentScrubStep);
+        }
+      });
+    }
+  }
+  window.addEventListener('wheel', handleWheel, { passive: false });
+  
+  window.addEventListener('keydown', (e) => {
+    if(timelineSection.style.display !== 'block') return;
+    if(isAnimatingForward) { e.preventDefault(); return; }
+    
+    if(e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
+      e.preventDefault();
+      if(currentScrubStep >= maxUnlockedStep - 0.05) advanceToNewStep();
+      else {
+         gsap.to(scrubProxy, { s: maxUnlockedStep, duration: 0.5, onUpdate: () => { currentScrubStep = scrubProxy.s; applyStepVisuals(currentScrubStep); }});
+      }
+    }
+    if(e.key === 'ArrowUp' || e.key === 'PageUp') {
+      e.preventDefault();
+      const targetScrub = Math.max(0, currentScrubStep - 2);
+      gsap.to(scrubProxy, { s: targetScrub, duration: 0.5, onUpdate: () => { currentScrubStep = scrubProxy.s; applyStepVisuals(currentScrubStep); }});
+    }
+  });
+
+  let touchStartY = 0;
+  let lastTouchY = 0;
+  window.addEventListener('touchstart', e => {
+    if(timelineSection.style.display !== 'block') return;
+    touchStartY = e.touches[0].clientY;
+    lastTouchY = touchStartY;
+  }, { passive: false });
+  
+  window.addEventListener('touchmove', e => {
+    if(timelineSection.style.display !== 'block') return;
+    e.preventDefault();
+    if(isAnimatingForward) return;
+    
+    const currentY = e.touches[0].clientY;
+    const deltaY = lastTouchY - currentY;
+    lastTouchY = currentY;
+    
+    const stepDelta = deltaY * 0.005;
+    if(deltaY > 0 && currentScrubStep >= maxUnlockedStep - 0.05) {
+      advanceToNewStep();
+    } else {
+      let targetScrub = currentScrubStep + stepDelta;
+      if(targetScrub < 0) targetScrub = 0;
+      if(targetScrub > maxUnlockedStep) targetScrub = maxUnlockedStep;
+      
+      scrubProxy.s = targetScrub;
+      currentScrubStep = targetScrub;
+      applyStepVisuals(currentScrubStep);
+    }
+  }, { passive: false });
+}
