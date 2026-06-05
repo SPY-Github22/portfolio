@@ -18,22 +18,20 @@ const sounds = {
   },
   cardHoverStart: () => {
     if(!audioCtx) return;
-    if(sounds.synth) sounds.synth.stop();
-    sounds.synth = audioCtx.createOscillator();
+    const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
-    sounds.synth.type = 'triangle';
-    sounds.synth.frequency.setValueAtTime(110, audioCtx.currentTime);
-    gain.gain.setValueAtTime(0, audioCtx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.05, audioCtx.currentTime + 0.1);
-    sounds.synth.connect(gain);
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(440, audioCtx.currentTime + 0.1);
+    gain.gain.setValueAtTime(0.02, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+    osc.connect(gain);
     gain.connect(audioCtx.destination);
-    sounds.synth.start();
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.1);
   },
   cardHoverEnd: () => {
-    if(sounds.synth) {
-      sounds.synth.stop();
-      sounds.synth = null;
-    }
+    // Intentionally empty: no continuous drone to stop
   },
   fireBurn: (duration) => {
     if(!audioCtx) return;

@@ -25,14 +25,54 @@ function openProject(id) {
   if (typeof projects === 'undefined') return;
   const p = projects.find(pr => pr.id === id);
   if(!p) return;
+  
   const overlay = document.getElementById('overlay');
   const ovTitle = document.getElementById('ovTitle');
+  const ovDesc = document.getElementById('ovDesc');
+  const ovBadge = document.getElementById('ovBadge');
+  const ovTech = document.getElementById('ovTech');
+  const ovIdx = document.getElementById('ovIdx');
+  const ovRight = document.getElementById('ovRight');
+  const ovLaunch = document.getElementById('ovLaunch');
+  const ovSource = document.getElementById('ovSource');
   
+  if(ovIdx) ovIdx.innerText = `// PROJECT_${p.index}`;
   if(ovTitle) ovTitle.innerText = p.title;
+  if(ovDesc) ovDesc.innerText = p.description;
+  if(ovBadge) {
+    ovBadge.innerText = p.status;
+    ovBadge.style.color = p.status === 'WIP' ? '#ffaa00' : '#4a9eff';
+    ovBadge.style.borderColor = p.status === 'WIP' ? 'rgba(255,170,0,0.5)' : 'rgba(74,158,255,0.5)';
+  }
+  if(ovTech && p.tech) ovTech.innerText = p.tech.join(' · ');
+  if(ovRight && p.palette) ovRight.style.background = `linear-gradient(135deg, ${p.palette[0]} 0%, ${p.palette[1]} 100%)`;
+  
+  if(ovLaunch) {
+    if(p.demoLink) {
+      ovLaunch.style.display = 'inline-flex';
+      ovLaunch.onclick = () => window.open(p.demoLink, '_blank');
+    } else {
+      ovLaunch.style.display = 'none';
+    }
+  }
+  if(ovSource) {
+    if(p.sourceLink) {
+      ovSource.style.display = 'inline-flex';
+      ovSource.onclick = () => window.open(p.sourceLink, '_blank');
+    } else {
+      ovSource.style.display = 'none';
+    }
+  }
   
   if(overlay) {
     overlay.classList.add('active');
+    
+    // reset content
+    const children = document.querySelectorAll('#ovContent > *');
+    gsap.set(children, { opacity: 0, y: 18 });
+    
     gsap.to(overlay, { opacity: 1, duration: 0.3 });
+    gsap.to(children, { opacity: 1, y: 0, duration: 0.4, stagger: 0.1, delay: 0.2, ease: 'power2.out' });
   }
 }
 
@@ -64,7 +104,7 @@ function renderCards(filter = 'ALL') {
     }
     
     card.innerHTML = `
-      <div class="gd-card-art" data-id="${p.id}" style="background: ${bgCss}"></div>
+      <div class="gd-card-bg" style="background: ${bgCss}"></div>
       <div class="gd-status-badge ${p.status.toLowerCase().replace(' ', '-')}">${p.status}</div>
       <span class="gd-card-genre">${p.genre}</span>
       <div class="gd-card-scrim">

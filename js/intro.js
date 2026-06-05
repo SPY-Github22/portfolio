@@ -43,7 +43,6 @@ if (initPrompt) {
 
 if (btnIntroStart) {
   btnIntroStart.addEventListener('click', () => {
-    if (typeof sounds !== 'undefined' && sounds.uiClick) sounds.uiClick();
     let tl = gsap.timeline();
     tl.to('#flash', { opacity: 1, duration: 0.1, onStart: () => {
        if (typeof sounds !== 'undefined' && sounds.uiClick) sounds.uiClick();
