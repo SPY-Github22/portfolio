@@ -5,25 +5,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Game Dev — Portfolio</title>
   <meta name="description" content="Game development showcase — interactive experiences and virtual worlds." />
+  
+  <!-- Preconnect to Google Fonts for performance optimization -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  
+  <!-- External Libraries: GSAP for core animations, ScrollTrigger (loaded but not strictly required for current setup) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <!-- INTRO SCREEN -->
+
+  <!-- ==========================================
+       INTRO SCREEN (Boot Sequence)
+       ========================================== -->
   <div id="intro-screen">
+    <!-- Transparent overlay capturing the first user click to bypass Audio autoplay rules -->
     <div class="gd-hoverable" id="initPrompt" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 10; color: var(--cold); font-family: monospace; font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; animation: pulseStart 2s infinite; cursor: none; user-select: none;">
       [ CLICK ANYWHERE TO INITIALIZE ]
     </div>
+    
+    <!-- Central title sequence shown after terminal boot -->
     <div class="intro-center" id="introCenter">
       <div class="intro-title">SUDARSHAN PAI Y <br> <span style="color:var(--cold); font-size:2rem;">// GAME DEV PORTFOLIO</span></div>
       <button class="intro-btn gd-hoverable" id="btnIntroStart">
         <span>PRESS ENTER TO ACCESS THE SYSTEM</span>
       </button>
     </div>
+    
+    <!-- Faux terminal output animated via GSAP during boot sequence -->
     <div class="intro-terminal" id="introTerminal">
       <p>> INITIALIZING CORE SYSTEMS... [OK]</p>
       <p>> LOADING GRAPHICS ENGINE... [OK]</p>
@@ -32,28 +45,42 @@
     </div>
   </div>
 
+  <!-- ==========================================
+       CUSTOM CURSOR
+       ========================================== -->
+  <!-- Snaps directly to mouse coordinates -->
   <div class="gd-dot" id="cursor-dot"></div>
+  <!-- Lags slightly behind, acts as a visual ring, expands on hover -->
   <div class="gd-ring" id="cursor-ring"><span class="gd-ring-plus">+</span></div>
 
+  <!-- ==========================================
+       MAIN VIEW (GRID & HEADER)
+       ========================================== -->
   <section id="gamedev">
+    <!-- Abstract glowing background orb -->
     <div class="gd-ambient-orb"></div>
+    <!-- Vertical divider separating left header from right cards -->
     <div class="gd-col-divider" id="divider"></div>
 
+    <!-- Decorative corner brackets -->
     <div class="gd-bracket tl"></div><div class="gd-bracket tr"></div>
     <div class="gd-bracket bl"></div><div class="gd-bracket br"></div>
 
+    <!-- UI Utility Buttons & Status Info -->
     <button class="gd-sound-toggle gd-hoverable" id="soundToggle">
       <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
       <span id="soundLabel">SOUND ON</span>
     </button>
+    
+    <!-- Real-time JS clock -->
     <div class="gd-timestamp" id="timestamp">SYS 00:00:00</div>
 
     <div class="gd-statusbar sr-hide" id="statusbar">
-      <span>HOVER TO EXPAND Â· CLICK TO LAUNCH</span>
-      <span>4 PROJECTS Â· 3 SHIPPED Â· 1 WIP Â· 0 DEMO</span>
+      <span>HOVER TO EXPAND · CLICK TO LAUNCH</span>
+      <span>4 PROJECTS · 3 SHIPPED · 1 WIP · 0 DEMO</span>
     </div>
 
-    <!-- LEFT COL -->
+    <!-- LEFT COLUMN (Intro & Links) -->
     <div class="gd-header">
       <span class="gd-label sr-hide" id="label">// PORTFOLIO<span class="gd-blink">_</span></span>
       <h2 class="gd-title">
@@ -80,72 +107,104 @@
           </svg>
           LINKEDIN
         </a>
-        <button class="gd-social-btn gd-timeline-btn gd-hoverable sr-hide" id="btnTimeline" style="border-color: rgba(74,158,255,0.4); color: #4a9eff; width: 100%; justify-content: center; margin-top: 10px; cursor: none;">
-          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M12 4v16M8 8h8M8 16h8" stroke-linecap="round"/></svg>
-          TIMELINE
-        </button>
+        
+
       </div>
     </div>
 
-    <!-- RIGHT COL -->
+    <!-- RIGHT COLUMN (Project Grid) -->
     <div class="gd-right">
       <div class="gd-section-title sr-hide" id="myWorkTitle">MY WORK</div>
+      
+      <!-- Filtering Buttons -->
       <div class="gd-filters">
         <button class="gd-filter-tab gd-hoverable sr-hide active" data-filter="ALL">ALL</button>
         <button class="gd-filter-tab gd-hoverable sr-hide" data-filter="UNITY">UNITY</button>
         <button class="gd-filter-tab gd-hoverable sr-hide" data-filter="UNREAL 5">UNREAL</button>
-        <button class="gd-filter-tab gd-hoverable sr-hide" data-filter="GODOT">GODOT</button>
       </div>
 
+      <!-- Container injected with .gd-card elements via JS -->
       <div class="gd-cards" id="cardsContainer"></div>
 
+      <!-- Toggle button to switch from Grid view to Timeline view -->
+      <button class="gd-social-btn gd-timeline-btn gd-hoverable sr-hide" id="btnTimeline" style="border-color: rgba(74,158,255,0.4); color: #4a9eff; width: 100%; justify-content: center; margin-top: 30px; cursor: none;">
+        <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M12 4v16M8 8h8M8 16h8" stroke-linecap="round"/></svg>
+        TIMELINE
+      </button>
+
+
+      <!-- Dot indicators below the cards (Currently Unused/Empty but left for scaling) -->
       <div class="gd-indicators sr-hide" id="indicators"></div>
     </div>
   </section>
 
-  <!-- OVERLAY -->
+  <!-- ==========================================
+       SCENE TRANSITION FLASH
+       ========================================== -->
+  <!-- Used to flash white when swapping between Grid and Timeline views -->
   <div class="gd-flash" id="flash"></div>
 
-  <!-- TIMELINE VIEW -->
+  <!-- ==========================================
+       TIMELINE VIEW
+       ========================================== -->
+  <!-- Alternate view swapped with the Grid layout via display:none -->
   <div id="timeline">
+    
+    <!-- UI Overlays for navigation -->
     <button class="tl-fixed-btn tl-back-btn gd-hoverable" id="btnTimelineBack">← GRID</button>
     <div class="tl-fixed-label tl-journey-label" id="btnJourneyLabel">MY JOURNEY</div>
 
+    <!-- The layer that gets scrolled/translated negatively to move the camera -->
     <div class="tl-scroll-layer" id="tlScrollLayer">
       <div class="tl-header">
         <h2>MY JOURNEY</h2>
         <div class="tl-header-sub">// DEVELOPMENT TIMELINE</div>
       </div>
     
-    <div class="tl-container" id="tlContainer">
-      <div class="tl-svg-wrapper">
-        <svg id="tlSvg" width="100%" height="100%">
-          <defs>
-            <linearGradient id="tlGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#4a9eff" />
-              <stop offset="50%" stop-color="#7c3fcf" />
-              <stop offset="100%" stop-color="#b060ff" />
-            </linearGradient>
-          </defs>
-          <path class="tl-path-ghost" id="tlPathGhost" d=""></path>
-          <path class="tl-path" id="tlPath" d=""></path>
-          <circle class="tl-dot" id="tlDot" r="8" cx="0" cy="0"></circle>
-          <g id="tlFireTip"></g>
-        </svg>
+      <!-- Wrapper for the procedural SVG and generated DOM nodes -->
+      <div class="tl-container" id="tlContainer">
+        <div class="tl-svg-wrapper">
+          <svg id="tlSvg" width="100%" height="100%">
+            <!-- Gradient definition for the illuminated path line -->
+            <defs>
+              <linearGradient id="tlGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#4a9eff" />
+                <stop offset="50%" stop-color="#7c3fcf" />
+                <stop offset="100%" stop-color="#b060ff" />
+              </linearGradient>
+            </defs>
+            <!-- Faint background ghost line marking the full path -->
+            <path class="tl-path-ghost" id="tlPathGhost" d=""></path>
+            <!-- The solid gradient line that "draws" itself during scroll -->
+            <path class="tl-path" id="tlPath" d=""></path>
+            <!-- The glowing orb cursor that leads the drawn path -->
+            <circle class="tl-dot" id="tlDot" r="8" cx="0" cy="0"></circle>
+            <!-- Group where fire/burn particles are injected -->
+            <g id="tlFireTip"></g>
+          </svg>
+        </div>
+        <!-- Container for HTML timeline nodes injected via JS -->
+        <div class="tl-nodes" id="tlNodes"></div>
       </div>
-      <div class="tl-nodes" id="tlNodes"></div>
-    </div>
-    
-    <div class="tl-footer">
-      <div class="tl-footer-text">THE JOURNEY CONTINUES<span class="tl-footer-cursor"></span></div>
-      <div class="tl-footer-line"></div>
+      
+      <div class="tl-footer">
+        <div class="tl-footer-text">THE JOURNEY CONTINUES<span class="tl-footer-cursor"></span></div>
+        <div class="tl-footer-line"></div>
+      </div>
     </div>
   </div>
 
+  <!-- ==========================================
+       PROJECT OVERLAY (MODAL)
+       ========================================== -->
+  <!-- Fullscreen modal injected with content when a card's LAUNCH button is clicked -->
   <div class="gd-overlay" id="overlay">
+    
+    <!-- Left column: Text details and actions -->
     <div class="gd-ov-left">
       <div class="gd-ov-project-idx" id="ovIdx">// PROJECT_01</div>
       <div class="gd-ov-nav">
+        <!-- Next/Prev buttons exist in layout but functionality requires integration -->
         <button id="btnPrev" class="gd-hoverable">PREV ←</button>
         <button id="btnNext" class="gd-hoverable">→ NEXT</button>
       </div>
@@ -170,16 +229,20 @@
         </div>
       </div>
     </div>
+    
+    <!-- Right column: Dynamic gradient art -->
     <div class="gd-ov-right">
       <div class="gd-ov-art" id="ovArt"></div>
     </div>
   </div>
 
+  <!-- Global close button for the project overlay -->
   <button class="gd-ov-close" id="btnClose">
     <span class="gd-ov-close-x">×</span>
     <span class="gd-ov-close-esc">ESC</span>
   </button>
 
+  <!-- Scripts: Loaded modularly in execution sequence -->
   <script src="js/data.js"></script>
   <script src="js/audio.js"></script>
   <script src="js/cursor.js"></script>

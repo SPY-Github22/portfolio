@@ -1,3 +1,27 @@
+/**
+ * @typedef {Object} Project
+ * @property {number} id - Unique identifier for the project.
+ * @property {string} index - Formatted index string (e.g., '01').
+ * @property {string} title - The title of the project.
+ * @property {string} genre - The genre category (e.g., 'SCI-FI', 'PLATFORMER').
+ * @property {string} tagline - A short subtitle or hook.
+ * @property {string} engine - The primary game engine used (e.g., 'Unity', 'Unreal 5').
+ * @property {string} year - The year the project was created.
+ * @property {string} role - The developer's role on the project (e.g., 'Solo Dev').
+ * @property {string} status - Current status of the project ('SHIPPED' or 'WIP').
+ * @property {string} duration - The amount of time spent developing the project.
+ * @property {string[]} tech - Array of specific technologies or skills used.
+ * @property {string} description - A detailed summary of the project's features.
+ * @property {string[]} palette - An array of 4 hex color strings representing the theme gradient.
+ * @property {string|null} demoLink - URL to play/download the demo, or null if unavailable.
+ * @property {string|null} sourceLink - URL to the source code repository, or null if closed source.
+ */
+
+/**
+ * Array containing all portfolio project data.
+ * This is used to populate both the interactive Grid view and the Timeline node details.
+ * @type {Project[]}
+ */
 const projects = [
     {
       id: 0, index: '01',
@@ -41,6 +65,19 @@ const projects = [
     }
   ];
 
+/**
+ * @typedef {Object} Milestone
+ * @property {string} [year] - The year of the milestone (only for type 'milestone').
+ * @property {string} [text] - Description of the milestone (only for type 'milestone').
+ * @property {string} type - 'milestone' for a text node, 'project' for a project node.
+ * @property {number} [id] - The corresponding project ID (only for type 'project').
+ */
+
+/**
+ * Array defining the chronological order and structure of the Timeline.
+ * It mixes standard text milestones with references to full projects (via project ID).
+ * @type {Milestone[]}
+ */
 const milestones = [
     { year: "2022", text: "Started Game Dev", type: "milestone" },
     { type: "project", id: 0 },

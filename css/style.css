@@ -1,5 +1,13 @@
+/**
+ * CSS Architecture & Design System
+ * 
+ * Uses a flat CSS methodology focusing on component-specific prefixes (e.g. .gd- for Grid, .tl- for Timeline)
+ * to avoid collisions and maintain modularity.
+ */
+
+/* Basic CSS Reset */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    
+    /* Global Design Tokens (Color Palette & Transparencies) */
     :root {
       --bg: #07070d;
       --cold: #4a9eff;
@@ -109,7 +117,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0 40px;
+      padding: 0 60px;
       z-index: 5;
       font-size: 0.58rem;
       text-transform: uppercase;
@@ -119,7 +127,7 @@
 
     .gd-sound-toggle {
       position: absolute;
-      top: 24px;
+      top: 40px;
       right: 60px;
       z-index: 10;
       border: 1px solid rgba(255,255,255,0.1);
@@ -147,8 +155,8 @@
 
     .gd-timestamp {
       position: absolute;
-      bottom: 50px;
-      left: 64px;
+      bottom: 55px;
+      left: 60px;
       z-index: 5;
       font-family: 'DM Sans', sans-serif;
       font-size: 0.95rem;
@@ -179,6 +187,7 @@
       font-size: clamp(5rem, 9vw, 10rem);
       line-height: 0.88;
       letter-spacing: -0.02em;
+      margin-top: -10px;
       margin-bottom: 16px;
     }
     .gd-accent-letter {
@@ -191,38 +200,95 @@
       font-size: 0.82rem;
       color: rgba(255,255,255,0.32);
       letter-spacing: 0.04em;
-      margin-bottom: 40px;
+      margin-bottom: 25px;
     }
 
     .gd-socials {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 16px;
+      position: relative;
     }
     .gd-social-btn {
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 12px;
-      width: 140px;
-      border: 1px solid rgba(255,255,255,0.12);
+      position: relative;
+      isolation: isolate;
+      border: 2px solid rgba(255,255,255,0.12);
       background: rgba(255,255,255,0.03);
       backdrop-filter: blur(4px);
-      border-radius: 6px;
       padding: 10px 18px;
       font-family: 'DM Sans', sans-serif;
       font-size: 0.72rem;
+      font-weight: bold;
       text-transform: uppercase;
       letter-spacing: 0.14em;
-      color: rgba(255,255,255,0.5);
+      color: #ffffff;
       text-decoration: none;
       cursor: none;
       transition: all 200ms ease;
+      z-index: 1;
+      border-radius: 6px;
     }
+    
+    /* Play around with button size and orientation: staggered widths */
+    .gd-itch { width: 170px; }
+    .gd-github { width: 170px; }
+    .gd-linkedin { width: 170px; }
+    .gd-timeline-btn { 
+      width: 320px !important; 
+      align-self: center; 
+      padding: 14px 24px;
+      font-size: 0.9rem;
+      letter-spacing: 0.2em;
+    }
+    .gd-timeline-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+    
+    /* Unique Patterns on the sides of each button */
+    .gd-social-btn::before {
+      content: '';
+      position: absolute;
+      top: 0px;
+      bottom: 0px;
+      left: -40px;
+      right: -40px;
+      background-size: cover;
+      background-position: center;
+      opacity: 0.35;
+      mix-blend-mode: screen;
+      z-index: -2;
+      pointer-events: none;
+      transition: opacity 300ms ease;
+      -webkit-mask-image: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.9) 20%, rgba(0,0,0,0.9) 80%, rgba(0,0,0,0) 100%);
+      mask-image: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.9) 20%, rgba(0,0,0,0.9) 80%, rgba(0,0,0,0) 100%);
+    }
+
+    .gd-itch::before { background-image: url('../assets/pattern_itch.png'); }
+    .gd-github::before { background-image: url('../assets/pattern_github.png'); }
+    .gd-linkedin::before { background-image: url('../assets/pattern_linkedin.png'); }
+    .gd-timeline-btn::before { background-image: url('../assets/pattern_timeline.png'); }
+    
+    .gd-timeline-btn::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      /* Opaque dark ellipse in the center that fades out smoothly and uniformly */
+      background: radial-gradient(ellipse 60% 70% at center, rgba(10, 10, 15, 1) 35%, rgba(10, 10, 15, 0) 100%);
+      z-index: -1;
+    }
+
+    .gd-social-btn:hover::before { opacity: 0.65; }
     .gd-social-btn svg {
       width: 16px; height: 16px; fill: currentColor; flex-shrink: 0;
     }
     .gd-social-btn:hover {
-      color: rgba(255,255,255,0.9);
+      color: #ffffff;
+      text-shadow: 0 0 8px rgba(255,255,255,0.5);
     }
 
     .gd-itch:hover {
@@ -240,7 +306,6 @@
     .gd-linkedin:hover {
       border-color: rgba(10,102,194,0.6);
       background: rgba(10,102,194,0.15);
-      color: #4a9eff;
     }
     .gd-linkedin svg rect:first-child { transition: fill 200ms ease; }
     .gd-linkedin:hover svg rect:first-child { fill: #0a66c2; }
@@ -334,6 +399,17 @@
                   opacity 0.4s ease,
                   transform 0.4s ease;
     }
+    
+    .gd-card-art {
+      position: absolute;
+      inset: 0;
+      background-size: 110% 110%;
+      background-position: 50% 50%;
+      border-radius: 10px;
+      transition: background-position 0.5s ease;
+      z-index: 1;
+    }
+
     .gd-card.dimmed {
       opacity: 0.25;
       transform: scale(0.97);
@@ -347,7 +423,7 @@
     .gd-card:nth-child(4){animation-delay:-5.25s}
     @keyframes breathe { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
 
-    .gd-card.hovered {
+    .gd-card.hovered, .gd-card.expanded {
       flex: 2.2 1 0;
       box-shadow: inset 0 0 50px rgba(0,0,0,0.45), 0 24px 64px rgba(0,0,0,0.45), 0 0 0 1px rgba(74,158,255,0.25);
     }
@@ -386,6 +462,10 @@
       padding: 18px 15px 40px;
       z-index: 3;
       pointer-events: none;
+      transition: right 300ms cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .gd-card.hovered .gd-card-scrim, .gd-card.expanded .gd-card-scrim {
+      right: 180px;
     }
     .gd-card-title {
       font-family: 'Bebas Neue', sans-serif;
@@ -410,13 +490,13 @@
       pointer-events: none;
       background: rgba(0,0,0,0.1);
     }
-    .gd-card.hovered .gd-reveal {
+    .gd-card.hovered .gd-reveal, .gd-card.expanded .gd-reveal {
       opacity: 1;
       pointer-events: all;
       transition-delay: 300ms;
     }
     .gd-reveal-top {
-      padding: 16px 14px 0;
+      padding: 42px 14px 0;
     }
     .gd-card-tagline {
       font-family: 'DM Sans', sans-serif;
@@ -656,7 +736,7 @@
       .gd-right { padding-left: 0; }
       .gd-cards { flex-wrap: nowrap; overflow-x: auto; scroll-snap-type: x mandatory; max-width: 100vw; padding-bottom: 20px; }
       .gd-card { flex: 0 0 85vw; scroll-snap-align: start; }
-      .gd-card.hovered { flex: 0 0 85vw; }
+      .gd-card.hovered, .gd-card.expanded { flex: 0 0 85vw; }
       .gd-reveal { width: 100%; opacity: 1; pointer-events: all; background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%); }
       .gd-overlay { grid-template-columns: 1fr; }
       .gd-ov-right { display: none; }
