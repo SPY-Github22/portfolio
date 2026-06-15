@@ -25,20 +25,22 @@ print("Loading video file...")
 try:
     clip = VideoFileClip(video_src)
     
-    # Year 3000: 0 to 1:01
-    print("Extracting Year 3000...")
-    year3000 = clip.subclipped("00:00:00", "00:01:01").resized(height=360)
-    year3000.write_videofile(os.path.join(dest_dir, "year3000.mp4"), audio=False, preset="fast")
-    
-    # Health++: 1:01 to 1:32
-    print("Extracting Health++...")
-    health = clip.subclipped("00:01:01", "00:01:32").resized(height=360)
-    health.write_videofile(os.path.join(dest_dir, "health.mp4"), audio=False, preset="fast")
-    
-    # They are coming: 1:32 to 4:22
-    print("Extracting They are coming...")
-    theyarecoming = clip.subclipped("00:01:32", "00:04:22").resized(height=360)
-    theyarecoming.write_videofile(os.path.join(dest_dir, "theyarecoming.mp4"), audio=False, preset="fast")
+    def extract(name, start, end):
+        print(f"Extracting {name} from {start} to {end}...")
+        sub = clip.subclipped(start, end).resized(height=360)
+        sub.write_videofile(os.path.join(dest_dir, f"{name}.mp4"), audio=False, preset="fast")
+        
+    extract("year3000_1", "00:00:00", "00:00:12")
+    extract("year3000_2", "00:00:20", "00:00:32")
+    extract("year3000_3", "00:00:45", "00:00:57")
+
+    extract("health_1", "00:01:02", "00:01:14")
+    extract("health_2", "00:01:18", "00:01:30")
+
+    extract("theyarecoming_1", "00:01:35", "00:01:47")
+    extract("theyarecoming_2", "00:02:10", "00:02:22")
+    extract("theyarecoming_3", "00:02:50", "00:03:02")
+    extract("theyarecoming_4", "00:03:45", "00:03:57")
     
     clip.close()
     print("All videos extracted successfully!")

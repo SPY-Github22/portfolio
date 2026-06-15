@@ -121,11 +121,9 @@ function openProject(id, source = 'grid') {
       }
     });
     ovArt.innerHTML = mediaHtml;
-    if (window.overlayMediaInterval) clearInterval(window.overlayMediaInterval);
+    if (window.overlayMediaTimeout) clearTimeout(window.overlayMediaTimeout);
     if (p.media.length > 1) {
-      window.overlayMediaInterval = setInterval(() => {
-        cycleCardMedia(ovArt);
-      }, 3500);
+      scheduleNextMediaCycle(ovArt, true);
     }
   } else if (ovArt) {
     ovArt.innerHTML = '';
@@ -237,7 +235,7 @@ if(btnClose) {
             overlay.classList.remove('active');
             if(btnClose) btnClose.classList.remove('active');
             gsap.set(overlay, { scale: 1, borderRadius: '0px' });
-            if (window.overlayMediaInterval) clearInterval(window.overlayMediaInterval);
+            if (window.overlayMediaTimeout) clearTimeout(window.overlayMediaTimeout);
             const ovArt = document.getElementById('ovArt');
             if (ovArt) ovArt.innerHTML = '';
           }
@@ -461,8 +459,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /* --- CAROUSEL LOGIC --- */
 window.userInteracting = false;
-let carouselInterval = null;
-let mediaInterval = null;
+let carouselTimeout = null;
+let mediaTimeout = null;
+window.overlayMediaTimeout = null;
 let activeCardIndex = 1; // "They are coming"
 
 function playCardMedia(card) {
@@ -489,9 +488,27 @@ function cycleCardMedia(card) {
   if (medias[nextIdx].tagName === 'VIDEO') medias[nextIdx].play().catch(e => {});
 }
 
+function scheduleNextMediaCycle(container, isOverlay) {
+  if (isOverlay) clearTimeout(window.overlayMediaTimeout);
+  else clearTimeout(mediaTimeout);
+  
+  const activeMedia = container.querySelector('.gd-card-media.active');
+  if (!activeMedia) return;
+  
+  let delay = activeMedia.tagName === 'VIDEO' ? 14500 : 4000;
+  
+  const timeoutId = setTimeout(() => {
+    cycleCardMedia(container);
+    scheduleNextMediaCycle(container, isOverlay);
+  }, delay);
+  
+  if (isOverlay) window.overlayMediaTimeout = timeoutId;
+  else mediaTimeout = timeoutId;
+}
+
 function stopCarousel() {
-  clearInterval(carouselInterval);
-  clearInterval(mediaInterval);
+  clearTimeout(carouselTimeout);
+  clearTimeout(mediaTimeout);
   document.querySelectorAll('.gd-card').forEach(c => pauseCardMedia(c));
 }
 
@@ -513,21 +530,15 @@ function startCarousel() {
   currentCard.classList.add('expanded');
   playCardMedia(currentCard);
   
-  // Media rotation inside the active card
-  mediaInterval = setInterval(() => {
-    cycleCardMedia(cards[activeCardIndex]);
-  }, 3500);
+  scheduleNextMediaCycle(currentCard, false);
   
-  // Card rotation
-  carouselInterval = setInterval(() => {
+  let cardDelay = 15000; // wait 15 seconds before rotating card to let video play
+  carouselTimeout = setTimeout(() => {
     cards[activeCardIndex].classList.remove('expanded');
     pauseCardMedia(cards[activeCardIndex]);
-    
     activeCardIndex = (activeCardIndex + 1) % cards.length;
-    let nextCard = cards[activeCardIndex];
-    nextCard.classList.add('expanded');
-    playCardMedia(nextCard);
-  }, 10000); // switch card every 10 seconds
+    startCarousel();
+  }, cardDelay);
 }
 
 // Start carousel on initial load after reveal

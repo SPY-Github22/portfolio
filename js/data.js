@@ -46,7 +46,10 @@ const projects = [
       description: "A survival game built in Unreal Engine 5. Face the incoming horde and fight to survive. Environment-focused narrative piece exploring Lumen GI.",
       palette: ["#1a0a2e","#3d1a6b","#7c3fcf","#b060ff"],
       media: [
-        { type: "video", url: "assets/theyarecoming.mp4" }
+        { type: "video", url: "assets/theyarecoming_1.mp4" },
+        { type: "video", url: "assets/theyarecoming_2.mp4" },
+        { type: "video", url: "assets/theyarecoming_3.mp4" },
+        { type: "video", url: "assets/theyarecoming_4.mp4" }
       ],
       demoLink: null, sourceLink: "https://github.com/SPY-Github22/UE5-Game---They-are-coming"
     },
@@ -59,7 +62,9 @@ const projects = [
       description: "Face challenges and retrieve the lost object in a futuristic world. Navigate difficult terrain to uncover the truth using advanced movement mechanics.",
       palette: ["#0d1f3c","#1a3a6b","#0a4fa8","#00d4ff"],
       media: [
-        { type: "video", url: "assets/year3000.mp4" },
+        { type: "video", url: "assets/year3000_1.mp4" },
+        { type: "video", url: "assets/year3000_2.mp4" },
+        { type: "video", url: "assets/year3000_3.mp4" },
         { type: "image", url: "assets/3000.png" }
       ],
       demoLink: "https://sudpy-dev.itch.io/three-thousand-years", sourceLink: null
@@ -73,7 +78,8 @@ const projects = [
       description: "A fast-paced clicker game where you battle enemies to reach 100 health and win. Highly optimized for Browser and Android with juicy feedback.",
       palette: ["#0a2010","#1a4a20","#2d7a3a","#39ff6e"],
       media: [
-        { type: "video", url: "assets/health.mp4" },
+        { type: "video", url: "assets/health_1.mp4" },
+        { type: "video", url: "assets/health_2.mp4" },
         { type: "image", url: "assets/health.png" }
       ],
       demoLink: "https://sudpy-dev.itch.io/health-plus-clicker-game", sourceLink: null

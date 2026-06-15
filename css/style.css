@@ -503,7 +503,9 @@
       transition: opacity 250ms ease;
       z-index: 4;
       pointer-events: none;
-      background: rgba(0,0,0,0.1);
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
     }
     .gd-card.hovered .gd-reveal, .gd-card.expanded .gd-reveal {
       opacity: 1;
@@ -545,8 +547,8 @@
       padding: 0 14px 16px;
     }
     .gd-launch-btn {
-      background: transparent;
-      border: 1px solid rgba(74,158,255,0.4);
+      background: rgba(74,158,255,0.15);
+      border: 1px solid rgba(74,158,255,0.5);
       padding: 6px 13px;
       border-radius: 3px;
       font-family: 'DM Sans', sans-serif;
