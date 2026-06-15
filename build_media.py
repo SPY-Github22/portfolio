@@ -1,6 +1,6 @@
 import os
 import shutil
-from moviepy.editor import VideoFileClip
+from moviepy import VideoFileClip
 
 # Source paths
 video_src = r"C:\Users\sudpy\Downloads\Video Project 8.mp4"
@@ -27,17 +27,17 @@ try:
     
     # Year 3000: 0 to 1:01
     print("Extracting Year 3000...")
-    year3000 = clip.subclip("00:00:00", "00:01:01").resize(height=360)
+    year3000 = clip.subclipped("00:00:00", "00:01:01").resized(height=360)
     year3000.write_videofile(os.path.join(dest_dir, "year3000.mp4"), audio=False, preset="fast")
     
     # Health++: 1:01 to 1:32
     print("Extracting Health++...")
-    health = clip.subclip("00:01:01", "00:01:32").resize(height=360)
+    health = clip.subclipped("00:01:01", "00:01:32").resized(height=360)
     health.write_videofile(os.path.join(dest_dir, "health.mp4"), audio=False, preset="fast")
     
     # They are coming: 1:32 to 4:22
     print("Extracting They are coming...")
-    theyarecoming = clip.subclip("00:01:32", "00:04:22").resize(height=360)
+    theyarecoming = clip.subclipped("00:01:32", "00:04:22").resized(height=360)
     theyarecoming.write_videofile(os.path.join(dest_dir, "theyarecoming.mp4"), audio=False, preset="fast")
     
     clip.close()

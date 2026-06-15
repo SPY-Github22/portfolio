@@ -110,6 +110,27 @@ function openProject(id, source = 'grid') {
   // Apply the project's custom gradient palette to the overlay art background
   if(ovArt && p.palette) ovArt.style.background = `linear-gradient(135deg, ${p.palette[0]} 0%, ${p.palette[1]} 100%)`;
   
+  if(ovArt && p.media && p.media.length > 0) {
+    let mediaHtml = '';
+    p.media.forEach((m, mIdx) => {
+      let activeClass = mIdx === 0 ? 'active' : '';
+      if (m.type === 'video') {
+        mediaHtml += `<video class="gd-card-media ${activeClass}" src="${m.url}" loop muted autoplay playsinline></video>`;
+      } else {
+        mediaHtml += `<img class="gd-card-media ${activeClass}" src="${m.url}">`;
+      }
+    });
+    ovArt.innerHTML = mediaHtml;
+    if (window.overlayMediaInterval) clearInterval(window.overlayMediaInterval);
+    if (p.media.length > 1) {
+      window.overlayMediaInterval = setInterval(() => {
+        cycleCardMedia(ovArt);
+      }, 3500);
+    }
+  } else if (ovArt) {
+    ovArt.innerHTML = '';
+  }
+  
   // Configure action buttons based on available links
   if(btnPlay) {
     if(p.demoLink) {
@@ -216,6 +237,9 @@ if(btnClose) {
             overlay.classList.remove('active');
             if(btnClose) btnClose.classList.remove('active');
             gsap.set(overlay, { scale: 1, borderRadius: '0px' });
+            if (window.overlayMediaInterval) clearInterval(window.overlayMediaInterval);
+            const ovArt = document.getElementById('ovArt');
+            if (ovArt) ovArt.innerHTML = '';
           }
         });
         
@@ -242,6 +266,9 @@ if(btnClose) {
             overlay.classList.remove('active');
             if(btnClose) btnClose.classList.remove('active');
             gsap.set(overlay, { scaleX: 1, scaleY: 1, y: 0, borderRadius: '0px' }); // Reset overlay transforms
+            if (window.overlayMediaInterval) clearInterval(window.overlayMediaInterval);
+            const ovArt = document.getElementById('ovArt');
+            if (ovArt) ovArt.innerHTML = '';
           }
         });
         
@@ -345,6 +372,7 @@ function renderCards(filter = 'ALL') {
     
     // Desktop hover logic: visually expands the card and changes cursor state
     card.addEventListener('mouseenter', () => { 
+      clearTimeout(window.resumeCarouselTimeout);
       window.userInteracting = true;
       stopCarousel();
       document.querySelectorAll('.gd-card.expanded').forEach(c => c.classList.remove('expanded'));
