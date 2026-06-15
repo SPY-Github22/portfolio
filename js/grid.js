@@ -305,15 +305,27 @@ function renderCards(filter = 'ALL') {
     card.className = 'gd-card sr-hide'; // sr-hide keeps it invisible for the initial staggered reveal
     card.style.transitionDelay = (idx * 0.1) + 's';
     
-    // Generate complex radial gradient string from the project's color palette
     let bgCss = '';
+    let mediaHtml = '';
     if (p.palette && p.palette.length === 4) {
       bgCss = `radial-gradient(ellipse 40% 30% at 70% 25%, rgba(255,255,255,0.07) 0%, transparent 60%), radial-gradient(ellipse at 50% 80%, ${p.palette[2]} 0%, transparent 55%), radial-gradient(ellipse at 75% 25%, ${p.palette[3]}33 0%, transparent 48%), linear-gradient(160deg, ${p.palette[1]} 0%, ${p.palette[0]} 100%)`;
       card.style.setProperty('--card-accent', p.palette[2]);
     }
+    if (p.media && p.media.length > 0) {
+      p.media.forEach((m, mIdx) => {
+        let activeClass = mIdx === 0 ? 'active' : '';
+        if (m.type === 'video') {
+          mediaHtml += `<video class="gd-card-media ${activeClass}" src="${m.url}" loop muted playsinline></video>`;
+        } else {
+          mediaHtml += `<img class="gd-card-media ${activeClass}" src="${m.url}">`;
+        }
+      });
+    }
     
     card.innerHTML = `
-      <div class="gd-card-art" style="background: ${bgCss}"></div>
+      <div class="gd-card-art" style="background: ${bgCss}">
+        ${mediaHtml}
+      </div>
       <div class="gd-status-badge ${p.status.toLowerCase().replace(' ', '-')}">${p.status}</div>
       <span class="gd-card-genre">${p.genre}</span>
       <div class="gd-card-scrim">
@@ -333,15 +345,28 @@ function renderCards(filter = 'ALL') {
     
     // Desktop hover logic: visually expands the card and changes cursor state
     card.addEventListener('mouseenter', () => { 
+      window.userInteracting = true;
+      stopCarousel();
+      document.querySelectorAll('.gd-card.expanded').forEach(c => c.classList.remove('expanded'));
+      
       card.classList.add('hovered');
       document.body.classList.add('cursor-card'); 
       if(typeof sounds !== 'undefined' && sounds.cardHoverStart) sounds.cardHoverStart(); 
+      playCardMedia(card);
     });
     
     card.addEventListener('mouseleave', () => { 
       card.classList.remove('hovered');
       document.body.classList.remove('cursor-card'); 
       if(typeof sounds !== 'undefined' && sounds.cardHoverEnd) sounds.cardHoverEnd(); 
+      pauseCardMedia(card);
+      
+      // Resume carousel after 2 seconds of inactivity
+      clearTimeout(window.resumeCarouselTimeout);
+      window.resumeCarouselTimeout = setTimeout(() => {
+        window.userInteracting = false;
+        startCarousel();
+      }, 2000);
     });
     
     // Click interaction logic
@@ -405,4 +430,85 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
+/* --- CAROUSEL LOGIC --- */
+window.userInteracting = false;
+let carouselInterval = null;
+let mediaInterval = null;
+let activeCardIndex = 1; // "They are coming"
+
+function playCardMedia(card) {
+  const activeMedia = card.querySelector('.gd-card-media.active');
+  if (activeMedia && activeMedia.tagName === 'VIDEO') {
+    activeMedia.play().catch(e => {});
+  }
+}
+
+function pauseCardMedia(card) {
+  const vids = card.querySelectorAll('video');
+  vids.forEach(v => v.pause());
+}
+
+function cycleCardMedia(card) {
+  const medias = Array.from(card.querySelectorAll('.gd-card-media'));
+  if (medias.length <= 1) return;
+  let activeIdx = medias.findIndex(m => m.classList.contains('active'));
+  medias[activeIdx].classList.remove('active');
+  if (medias[activeIdx].tagName === 'VIDEO') medias[activeIdx].pause();
+  
+  let nextIdx = (activeIdx + 1) % medias.length;
+  medias[nextIdx].classList.add('active');
+  if (medias[nextIdx].tagName === 'VIDEO') medias[nextIdx].play().catch(e => {});
+}
+
+function stopCarousel() {
+  clearInterval(carouselInterval);
+  clearInterval(mediaInterval);
+  document.querySelectorAll('.gd-card').forEach(c => pauseCardMedia(c));
+}
+
+function startCarousel() {
+  if (window.userInteracting) return;
+  stopCarousel();
+  
+  const cards = document.querySelectorAll('.gd-card');
+  if (cards.length === 0) return;
+  
+  // Set initial
+  cards.forEach(c => {
+    c.classList.remove('expanded', 'hovered');
+    pauseCardMedia(c);
+  });
+  
+  activeCardIndex = activeCardIndex % cards.length;
+  let currentCard = cards[activeCardIndex];
+  currentCard.classList.add('expanded');
+  playCardMedia(currentCard);
+  
+  // Media rotation inside the active card
+  mediaInterval = setInterval(() => {
+    cycleCardMedia(cards[activeCardIndex]);
+  }, 3500);
+  
+  // Card rotation
+  carouselInterval = setInterval(() => {
+    cards[activeCardIndex].classList.remove('expanded');
+    pauseCardMedia(cards[activeCardIndex]);
+    
+    activeCardIndex = (activeCardIndex + 1) % cards.length;
+    let nextCard = cards[activeCardIndex];
+    nextCard.classList.add('expanded');
+    playCardMedia(nextCard);
+  }, 10000); // switch card every 10 seconds
+}
+
+// Start carousel on initial load after reveal
+const oldTriggerReveal = triggerReveal;
+window.triggerReveal = function(filter = 'ALL') {
+  oldTriggerReveal(filter);
+  setTimeout(() => {
+    activeCardIndex = filter === 'ALL' ? 1 : 0; // "They are coming" is at index 1
+    startCarousel();
+  }, 500);
+}
 

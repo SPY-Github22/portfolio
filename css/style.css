@@ -409,6 +409,21 @@
       transition: background-position 0.5s ease;
       z-index: 1;
     }
+    
+    .gd-card-media {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 1s ease;
+      z-index: 2;
+    }
+    
+    .gd-card-media.active {
+      opacity: 1;
+    }
 
     .gd-card.dimmed {
       opacity: 0.25;
