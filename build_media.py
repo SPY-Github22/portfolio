@@ -2,23 +2,28 @@ import os
 import shutil
 from moviepy import VideoFileClip
 
-# Source paths
-video_src = r"C:\Users\sudpy\Downloads\Video Project 8.mp4"
-img_3000 = r"C:\Users\sudpy\OneDrive\Pictures\Screenshots\Screenshot 2026-06-14 104816.png"
-img_health = r"C:\Users\sudpy\OneDrive\Pictures\Screenshots\Screenshot 2026-06-14 101642.png"
-img_alien1 = r"C:\Users\sudpy\OneDrive\Pictures\Screenshots\Screenshot 2026-06-14 101510.png"
-img_alien2 = r"C:\Users\sudpy\OneDrive\Pictures\Screenshots\Screenshot 2026-06-14 101216.png"
+# Source paths (override via environment variables or place raw source files in ./raw_media)
+RAW_MEDIA_DIR = os.environ.get("RAW_MEDIA_DIR", "./raw_media")
+video_src = os.environ.get("VIDEO_SRC", os.path.join(RAW_MEDIA_DIR, "gameplay.mp4"))
+img_3000 = os.environ.get("IMG_3000", os.path.join(RAW_MEDIA_DIR, "3000.png"))
+img_health = os.environ.get("IMG_HEALTH", os.path.join(RAW_MEDIA_DIR, "health.png"))
+img_alien1 = os.environ.get("IMG_ALIEN1", os.path.join(RAW_MEDIA_DIR, "alien1.png"))
+img_alien2 = os.environ.get("IMG_ALIEN2", os.path.join(RAW_MEDIA_DIR, "alien2.png"))
 
 # Destination paths
 dest_dir = "assets"
 os.makedirs(dest_dir, exist_ok=True)
 
 # 1. Copy images
-shutil.copy2(img_3000, os.path.join(dest_dir, "3000.png"))
-shutil.copy2(img_health, os.path.join(dest_dir, "health.png"))
-shutil.copy2(img_alien1, os.path.join(dest_dir, "alien1.png"))
-shutil.copy2(img_alien2, os.path.join(dest_dir, "alien2.png"))
-print("Images copied.")
+for src, name in [
+    (img_3000, "3000.png"),
+    (img_health, "health.png"),
+    (img_alien1, "alien1.png"),
+    (img_alien2, "alien2.png"),
+]:
+    if os.path.exists(src):
+        shutil.copy2(src, os.path.join(dest_dir, name))
+print("Images processed.")
 
 # 2. Extract videos
 print("Loading video file...")
