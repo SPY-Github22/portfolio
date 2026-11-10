@@ -55,8 +55,10 @@
     <section class="hero" id="hero">
         <canvas id="particleCanvas"></canvas>
         <div class="hero-content">
-            <div class="hero-badge reveal">
-                <i class="fas fa-robot"></i> AI & Software Developer
+            <div class="hero-badge-wrap reveal">
+                <span class="status-badge-live">
+                    <span class="pulse-dot"></span> Available for Opportunities &amp; GSoC
+                </span>
             </div>
             <h1 class="hero-title reveal">
                 Hi, I'm <span class="gradient-text">Sudarshan Pai Y</span>
@@ -165,19 +167,27 @@
         <div class="container">
             <div class="section-header reveal">
                 <span class="section-tag"><i class="fas fa-layer-group"></i> Featured Projects</span>
-                <h2 class="section-title">Engineered to <span class="gradient-text">Solve Problems</span></h2>
+                <h2 class="section-title">Engineered to <span class="gradient-blue">Solve Problems</span></h2>
                 <p class="section-subtitle">Real-world AI systems, 3D spatial twins, and peer-reviewed open source work.</p>
+            </div>
+
+            <!-- Interactive Project Filter Tabs -->
+            <div class="filter-tabs reveal">
+                <button class="filter-tab active" data-filter="all"><i class="fas fa-th-large"></i> All Work</button>
+                <button class="filter-tab" data-filter="ai"><i class="fas fa-brain"></i> Environmental &amp; AI</button>
+                <button class="filter-tab" data-filter="spatial"><i class="fas fa-cube"></i> Spatial &amp; 3D</button>
+                <button class="filter-tab" data-filter="systems"><i class="fas fa-terminal"></i> Systems &amp; Tools</button>
             </div>
 
             <div class="projects-grid">
                 <!-- 1. BhuRakshak (SIH Flagship) -->
-                <div class="project-card featured-wide reveal">
+                <div class="project-card featured-wide reveal" data-category="ai">
                     <div>
                         <div class="project-meta-bar">
-                            <span class="project-domain-tag"><i class="fas fa-mountain"></i> Geospatial & Environmental AI</span>
-                            <span class="project-status-pill highlight"><i class="fas fa-trophy"></i> SIH 2026</span>
+                            <span class="project-domain-tag"><i class="fas fa-mountain"></i> Geospatial &amp; Environmental AI</span>
+                            <span class="project-status-pill gold"><i class="fas fa-trophy"></i> SIH 2026 Finalist</span>
                         </div>
-                        <h3 class="project-title">BhuRakshak (भूरक्षक) — Landslide Risk Monitoring & Early Warning</h3>
+                        <h3 class="project-title">BhuRakshak (भूरक्षक) — Landslide Risk Monitoring &amp; Early Warning</h3>
                         <p class="project-description">
                             A 4-layer predictive disaster protection system for North-East India fusing rainfall nowcasts, calibrated ML with rainfall hysteresis, Sentinel-1 InSAR creep anomalies, and high-risk evacuation routing. Features PostGIS/TimescaleDB hypertables, Martin vector tiles, MapLibre 3D command center, and an offline Field PWA.
                         </p>
@@ -196,15 +206,15 @@
                         <a href="https://github.com/SPY-Github22/bhrakshak-v2" target="_blank" rel="noopener" class="btn btn-primary btn-sm">
                             <i class="fab fa-github"></i> View Repository
                         </a>
-                        <span class="project-status-pill"><i class="fas fa-check-circle"></i> Production Ready</span>
+                        <span class="project-status-pill emerald"><i class="fas fa-check-circle"></i> Production Ready</span>
                     </div>
                 </div>
 
                 <!-- 2. RailTwin 3D -->
-                <div class="project-card reveal">
+                <div class="project-card reveal" data-category="spatial">
                     <div>
                         <div class="project-meta-bar">
-                            <span class="project-domain-tag"><i class="fas fa-train"></i> Spatial Systems & Digital Twins</span>
+                            <span class="project-domain-tag"><i class="fas fa-train"></i> Spatial Systems &amp; Digital Twins</span>
                             <span class="project-status-pill highlight">Live 3D Twin</span>
                         </div>
                         <h3 class="project-title">RailTwin 3D — Dadar Junction Spatial Digital Twin</h3>
@@ -228,13 +238,13 @@
                 </div>
 
                 <!-- 3. Coral Bleaching Predictor -->
-                <div class="project-card reveal">
+                <div class="project-card reveal" data-category="ai">
                     <div>
                         <div class="project-meta-bar">
-                            <span class="project-domain-tag"><i class="fas fa-water"></i> Marine Ecology & Machine Learning</span>
-                            <span class="project-status-pill research">Research Project</span>
+                            <span class="project-domain-tag"><i class="fas fa-water"></i> Marine Ecology &amp; Machine Learning</span>
+                            <span class="project-status-pill">Research Project</span>
                         </div>
-                        <h3 class="project-title">Coral Bleaching & Reef Degradation Predictor</h3>
+                        <h3 class="project-title">Coral Bleaching &amp; Reef Degradation Predictor</h3>
                         <p class="project-description">
                             Predictive machine learning model assessing coral reef degradation and bleaching events. Built by aggregating multi-source satellite sea-surface temperatures, oceanographic climate datasets, and environmental variables, supported by direct research inquiries with marine institutions.
                         </p>
@@ -256,10 +266,10 @@
                 </div>
 
                 <!-- 4. APEX Prime 2 -->
-                <div class="project-card reveal">
+                <div class="project-card reveal" data-category="spatial">
                     <div>
                         <div class="project-meta-bar">
-                            <span class="project-domain-tag"><i class="fas fa-gamepad"></i> Real-Time Graphics & WebGL</span>
+                            <span class="project-domain-tag"><i class="fas fa-gamepad"></i> Real-Time Graphics &amp; WebGL</span>
                             <span class="project-status-pill highlight">Playable in Browser</span>
                         </div>
                         <h3 class="project-title">APEX Prime 2: Void Vanguard</h3>
@@ -275,20 +285,20 @@
                         </div>
                     </div>
                     <div class="project-actions">
-                        <a href="https://spy-github22.github.io/apex-prime-2/" target="_blank" rel="noopener" class="btn btn-primary btn-sm">
+                        <a href="https://spy-github22.github.io/apex-prime-2/" target="_blank" rel="noopener" class="btn btn-accent btn-sm">
                             <i class="fas fa-play"></i> Play Game
                         </a>
-                        <a href="https://github.com/SPY-Github22/apex-prime-2" target="_blank" rel="noopener" class="btn btn-glass btn-sm">
+                        <a href="https://github.com/SPY-Github22/apex-prime-2" target="_blank" rel="noopener" class="btn btn-outline btn-sm">
                             <i class="fab fa-github"></i> Code
                         </a>
                     </div>
                 </div>
 
                 <!-- 5. PortPilot -->
-                <div class="project-card reveal">
+                <div class="project-card reveal" data-category="systems">
                     <div>
                         <div class="project-meta-bar">
-                            <span class="project-domain-tag"><i class="fas fa-shield-alt"></i> Systems & Process Management</span>
+                            <span class="project-domain-tag"><i class="fas fa-shield-alt"></i> Systems &amp; Process Management</span>
                             <span class="project-status-pill">Live Utility</span>
                         </div>
                         <h3 class="project-title">PortPilot — Ghost Process Exorcist</h3>
@@ -304,10 +314,10 @@
                         </div>
                     </div>
                     <div class="project-actions">
-                        <a href="https://spy-github22.github.io/portpilot/" target="_blank" rel="noopener" class="btn btn-outline btn-sm">
+                        <a href="https://spy-github22.github.io/portpilot/" target="_blank" rel="noopener" class="btn btn-primary btn-sm">
                             <i class="fas fa-external-link-alt"></i> Live App
                         </a>
-                        <a href="https://github.com/SPY-Github22/portpilot" target="_blank" rel="noopener" class="btn btn-glass btn-sm">
+                        <a href="https://github.com/SPY-Github22/portpilot" target="_blank" rel="noopener" class="btn btn-outline btn-sm">
                             <i class="fab fa-github"></i> Code
                         </a>
                     </div>
@@ -425,30 +435,97 @@
     <section class="section contact" id="contact">
         <div class="container">
             <div class="section-header reveal">
-                <span class="section-tag"><i class="fas fa-envelope"></i> Contact</span>
-                <h2 class="section-title">Let's <span class="gradient-text">Connect</span></h2>
-                <p class="section-subtitle">Feel free to reach out for collaborations, opportunities, or just to say hello!</p>
+                <span class="section-tag"><i class="fas fa-paper-plane"></i> Get In Touch</span>
+                <h2 class="section-title">Let's Connect <span class="gradient-blue">Directly</span></h2>
+                <p class="section-subtitle">Drop me a message right here, or copy my contact details with one click.</p>
             </div>
-            <div class="contact-grid">
-                <div class="contact-cards reveal">
-                    <a href="https://github.com/SPY-Github22" target="_blank" rel="noopener" class="contact-card">
-                        <div class="contact-card-icon"><i class="fab fa-github"></i></div>
-                        <h3>GitHub</h3>
-                        <p>SPY-Github22</p>
-                        <span class="contact-card-arrow"><i class="fas fa-arrow-right"></i></span>
-                    </a>
-                    <a href="https://www.linkedin.com/in/sudarshan-pai-y/" target="_blank" rel="noopener" class="contact-card">
-                        <div class="contact-card-icon linkedin"><i class="fab fa-linkedin-in"></i></div>
-                        <h3>LinkedIn</h3>
-                        <p>Sudarshan Pai Y</p>
-                        <span class="contact-card-arrow"><i class="fas fa-arrow-right"></i></span>
-                    </a>
-                    <a href="assets/Sudarshan_Pai_Y_Standard_Resume.pdf" target="_blank" rel="noopener" class="contact-card">
-                        <div class="contact-card-icon resume"><i class="fas fa-file-alt"></i></div>
-                        <h3>Resume</h3>
-                        <p>View my resume</p>
-                        <span class="contact-card-arrow"><i class="fas fa-arrow-right"></i></span>
-                    </a>
+
+            <div class="contact-layout">
+                <!-- Left: Channels & 1-Click Copy -->
+                <div class="contact-channels-card reveal">
+                    <h3 class="contact-channels-title">Start a Conversation</h3>
+                    <p class="contact-channels-desc">
+                        Whether you want to discuss a software engineering role, GSoC project collaboration, or an environmental AI deployment, my inbox is always open.
+                    </p>
+
+                    <!-- Interactive 1-Click Email Copy Box -->
+                    <div class="email-copy-box">
+                        <div class="email-copy-info">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <span class="email-copy-text" id="displayEmail">sudarshan.pai.y@gmail.com</span>
+                            </div>
+                        </div>
+                        <button class="btn-copy-email" id="btnCopyEmail" aria-label="Copy Email">
+                            <i class="fas fa-copy"></i> <span>Copy</span>
+                        </button>
+                    </div>
+
+                    <div class="response-pill">
+                        <i class="fas fa-bolt"></i> Usually replies within 24 hours
+                    </div>
+
+                    <div class="contact-social-row">
+                        <a href="https://github.com/SPY-Github22" target="_blank" rel="noopener" class="contact-social-btn">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                        <a href="https://www.linkedin.com/in/sudarshan-pai-y/" target="_blank" rel="noopener" class="contact-social-btn">
+                            <i class="fab fa-linkedin-in" style="color: #0a66c2;"></i> LinkedIn
+                        </a>
+                        <a href="assets/Sudarshan_Pai_Y_Standard_Resume.pdf" target="_blank" rel="noopener" class="contact-social-btn">
+                            <i class="fas fa-file-alt" style="color: #e11d48;"></i> Resume
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right: Interactive Direct Message Form -->
+                <div class="contact-form-card reveal">
+                    <div class="contact-form-header">
+                        <h3>Send a Direct Message</h3>
+                        <p>Fills your message directly and creates a ready-to-send draft or clipboard copy.</p>
+                    </div>
+
+                    <!-- Subject Quick Selector Chips -->
+                    <span class="subject-chips-label">Quick Topic Selector</span>
+                    <div class="subject-chips" id="subjectChips">
+                        <button type="button" class="subject-chip active" data-subject="Opportunity / Role Inquiry">💼 Opportunity</button>
+                        <button type="button" class="subject-chip" data-subject="Project Collaboration">🤝 Collaboration</button>
+                        <button type="button" class="subject-chip" data-subject="AI / Research Discussion">💡 AI / Research</button>
+                        <button type="button" class="subject-chip" data-subject="Quick Connect">☕ Quick Chat</button>
+                    </div>
+
+                    <form id="directContactForm">
+                        <div class="form-group">
+                            <label for="senderName" class="form-label">Your Name</label>
+                            <input type="text" id="senderName" class="form-input" placeholder="e.g. Alex Mercer" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="senderEmail" class="form-label">Your Email</label>
+                            <input type="email" id="senderEmail" class="form-input" placeholder="e.g. alex@company.com" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="messageSubject" class="form-label">Subject</label>
+                            <input type="text" id="messageSubject" class="form-input" value="Opportunity / Role Inquiry" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="messageBody" class="form-label">Message</label>
+                            <textarea id="messageBody" class="form-textarea" placeholder="Hi Sudarshan, I saw your work on BhuRakshak and RailTwin..." required></textarea>
+                        </div>
+
+                        <div class="form-submit-row">
+                            <button type="submit" class="btn btn-primary" id="btnSendMessage">
+                                <i class="fas fa-paper-plane"></i> Send Direct Message
+                            </button>
+                            <button type="button" class="btn btn-outline" id="btnCopyMessage">
+                                <i class="fas fa-clipboard"></i> Copy Draft
+                            </button>
+                        </div>
+
+                        <div class="form-feedback" id="formFeedback"></div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -461,7 +538,7 @@
                 <div class="footer-logo">
                     <span class="logo-bracket">&lt;</span>SPY<span class="logo-bracket">/&gt;</span>
                 </div>
-                <p class="footer-text">Designed & Built by Sudarshan Pai Y</p>
+                <p class="footer-text">Designed &amp; Built by Sudarshan Pai Y</p>
                 <div class="footer-socials">
                     <a href="https://github.com/SPY-Github22" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>
                     <a href="https://www.linkedin.com/in/sudarshan-pai-y/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
@@ -470,6 +547,12 @@
             </div>
         </div>
     </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <i class="fas fa-check-circle" style="color: #10b981;"></i>
+        <span id="toastMessage">Copied to clipboard!</span>
+    </div>
 
     <script src="script.js"></script>
 </body>
