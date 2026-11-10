@@ -33,6 +33,7 @@
             <ul class="nav-links" id="navLinks">
                 <li><a href="#hero" class="nav-link active">Home</a></li>
                 <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
                 <li><a href="#skills" class="nav-link">Skills</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
             </ul>
@@ -154,6 +155,203 @@
                             <span>EdTech Tools</span>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FEATURED PROJECTS ==================== -->
+    <section class="section projects" id="projects">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-tag"><i class="fas fa-layer-group"></i> Featured Projects</span>
+                <h2 class="section-title">Engineered to <span class="gradient-text">Solve Problems</span></h2>
+                <p class="section-subtitle">Real-world AI systems, 3D spatial twins, and peer-reviewed open source work.</p>
+            </div>
+
+            <div class="projects-grid">
+                <!-- 1. BhuRakshak (SIH Flagship) -->
+                <div class="project-card featured-wide reveal">
+                    <div>
+                        <div class="project-meta-bar">
+                            <span class="project-domain-tag"><i class="fas fa-mountain"></i> Geospatial & Environmental AI</span>
+                            <span class="project-status-pill highlight"><i class="fas fa-trophy"></i> SIH 2026</span>
+                        </div>
+                        <h3 class="project-title">BhuRakshak (भूरक्षक) — Landslide Risk Monitoring & Early Warning</h3>
+                        <p class="project-description">
+                            A 4-layer predictive disaster protection system for North-East India fusing rainfall nowcasts, calibrated ML with rainfall hysteresis, Sentinel-1 InSAR creep anomalies, and high-risk evacuation routing. Features PostGIS/TimescaleDB hypertables, Martin vector tiles, MapLibre 3D command center, and an offline Field PWA.
+                        </p>
+                        <div class="project-tech-stack">
+                            <span class="project-tech-pill">FastAPI</span>
+                            <span class="project-tech-pill">Next.js 14</span>
+                            <span class="project-tech-pill">PostgreSQL / PostGIS</span>
+                            <span class="project-tech-pill">TimescaleDB</span>
+                            <span class="project-tech-pill">Sentinel-1 InSAR</span>
+                            <span class="project-tech-pill">MapLibre 3D</span>
+                            <span class="project-tech-pill">Celery / Redis</span>
+                            <span class="project-tech-pill">Offline PWA</span>
+                        </div>
+                    </div>
+                    <div class="project-actions">
+                        <a href="https://github.com/SPY-Github22/bhrakshak-v2" target="_blank" rel="noopener" class="btn btn-primary btn-sm">
+                            <i class="fab fa-github"></i> View Repository
+                        </a>
+                        <span class="project-status-pill"><i class="fas fa-check-circle"></i> Production Ready</span>
+                    </div>
+                </div>
+
+                <!-- 2. RailTwin 3D -->
+                <div class="project-card reveal">
+                    <div>
+                        <div class="project-meta-bar">
+                            <span class="project-domain-tag"><i class="fas fa-train"></i> Spatial Systems & Digital Twins</span>
+                            <span class="project-status-pill highlight">Live 3D Twin</span>
+                        </div>
+                        <h3 class="project-title">RailTwin 3D — Dadar Junction Spatial Digital Twin</h3>
+                        <p class="project-description">
+                            Interactive 3D commuter crowd navigation and station monitoring platform modeled for Dadar Junction (Mumbai) handling ~2M daily passengers across 14 platforms. Features multi-level geometry, real-time foot overbridge congestion radar, coach demarcations, and stampede detour routing.
+                        </p>
+                        <div class="project-tech-stack">
+                            <span class="project-tech-pill">Three.js</span>
+                            <span class="project-tech-pill">React 19</span>
+                            <span class="project-tech-pill">TypeScript</span>
+                            <span class="project-tech-pill">WebGL</span>
+                            <span class="project-tech-pill">Tailwind CSS</span>
+                            <span class="project-tech-pill">Vitest</span>
+                        </div>
+                    </div>
+                    <div class="project-actions">
+                        <a href="https://github.com/SPY-Github22/railtwin" target="_blank" rel="noopener" class="btn btn-outline btn-sm">
+                            <i class="fab fa-github"></i> View Repository
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 3. Coral Bleaching Predictor -->
+                <div class="project-card reveal">
+                    <div>
+                        <div class="project-meta-bar">
+                            <span class="project-domain-tag"><i class="fas fa-water"></i> Marine Ecology & Machine Learning</span>
+                            <span class="project-status-pill research">Research Project</span>
+                        </div>
+                        <h3 class="project-title">Coral Bleaching & Reef Degradation Predictor</h3>
+                        <p class="project-description">
+                            Predictive machine learning model assessing coral reef degradation and bleaching events. Built by aggregating multi-source satellite sea-surface temperatures, oceanographic climate datasets, and environmental variables, supported by direct research inquiries with marine institutions.
+                        </p>
+                        <div class="project-tech-stack">
+                            <span class="project-tech-pill">Python</span>
+                            <span class="project-tech-pill">Scikit-learn</span>
+                            <span class="project-tech-pill">Pandas</span>
+                            <span class="project-tech-pill">NumPy</span>
+                            <span class="project-tech-pill">Data Scraping</span>
+                            <span class="project-tech-pill">Matplotlib</span>
+                        </div>
+                    </div>
+                    <div class="project-actions">
+                        <a href="https://github.com/SPY-Github22/Coral-Bleaching-Predictor" target="_blank" rel="noopener" class="btn btn-outline btn-sm">
+                            <i class="fab fa-github"></i> Baseline v1
+                        </a>
+                        <span class="project-status-pill">v2 in Progress</span>
+                    </div>
+                </div>
+
+                <!-- 4. APEX Prime 2 -->
+                <div class="project-card reveal">
+                    <div>
+                        <div class="project-meta-bar">
+                            <span class="project-domain-tag"><i class="fas fa-gamepad"></i> Real-Time Graphics & WebGL</span>
+                            <span class="project-status-pill highlight">Playable in Browser</span>
+                        </div>
+                        <h3 class="project-title">APEX Prime 2: Void Vanguard</h3>
+                        <p class="project-description">
+                            An open-world 3D space flight and dogfight combat simulator built for modern browsers. Features 6-DOF Newtonian inertia physics, dense procedural asteroid fields, AI dogfights, orbital space station docking, and a procedural Web Audio synthesizer with zero external audio assets.
+                        </p>
+                        <div class="project-tech-stack">
+                            <span class="project-tech-pill">Three.js WebGL</span>
+                            <span class="project-tech-pill">TypeScript 5</span>
+                            <span class="project-tech-pill">Vite</span>
+                            <span class="project-tech-pill">Web Audio API</span>
+                            <span class="project-tech-pill">Vitest</span>
+                        </div>
+                    </div>
+                    <div class="project-actions">
+                        <a href="https://spy-github22.github.io/apex-prime-2/" target="_blank" rel="noopener" class="btn btn-primary btn-sm">
+                            <i class="fas fa-play"></i> Play Game
+                        </a>
+                        <a href="https://github.com/SPY-Github22/apex-prime-2" target="_blank" rel="noopener" class="btn btn-glass btn-sm">
+                            <i class="fab fa-github"></i> Code
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 5. PortPilot -->
+                <div class="project-card reveal">
+                    <div>
+                        <div class="project-meta-bar">
+                            <span class="project-domain-tag"><i class="fas fa-shield-alt"></i> Systems & Process Management</span>
+                            <span class="project-status-pill">Live Utility</span>
+                        </div>
+                        <h3 class="project-title">PortPilot — Ghost Process Exorcist</h3>
+                        <p class="project-description">
+                            A developer process inspection dashboard and CLI that prevents port collision errors (EADDRINUSE). Features native /proc/net/tcp parsing, orphaned zombie worker detection, 1-click process termination, and enterprise security guards with strict localhost CSRF tokens and root PID shields.
+                        </p>
+                        <div class="project-tech-stack">
+                            <span class="project-tech-pill">React 19</span>
+                            <span class="project-tech-pill">TypeScript</span>
+                            <span class="project-tech-pill">Node.js</span>
+                            <span class="project-tech-pill">Tailwind CSS</span>
+                            <span class="project-tech-pill">Vitest (100% Pass)</span>
+                        </div>
+                    </div>
+                    <div class="project-actions">
+                        <a href="https://spy-github22.github.io/portpilot/" target="_blank" rel="noopener" class="btn btn-outline btn-sm">
+                            <i class="fas fa-external-link-alt"></i> Live App
+                        </a>
+                        <a href="https://github.com/SPY-Github22/portpilot" target="_blank" rel="noopener" class="btn btn-glass btn-sm">
+                            <i class="fab fa-github"></i> Code
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Open Source Contributions Banner -->
+            <div class="oss-card reveal">
+                <div class="oss-card-header">
+                    <div class="oss-card-icon"><i class="fas fa-code-branch"></i></div>
+                    <div>
+                        <h3>Open Source Contributions</h3>
+                        <p>Peer-reviewed pull requests and contributions to active upstream repositories.</p>
+                    </div>
+                </div>
+                <div class="oss-grid">
+                    <a href="https://github.com/SPY-Github22/datafusion" target="_blank" rel="noopener" class="oss-item">
+                        <div class="oss-item-top">
+                            <span class="oss-repo-name"><i class="fab fa-rust" style="color: #dea584;"></i> Apache DataFusion</span>
+                            <span class="oss-tag">Rust</span>
+                        </div>
+                        <p class="oss-desc">Scalar decimal zero-row evaluation handling for high-performance vectorized query execution.</p>
+                    </a>
+                    <a href="https://github.com/SPY-Github22/zulip" target="_blank" rel="noopener" class="oss-item">
+                        <div class="oss-item-top">
+                            <span class="oss-repo-name"><i class="fab fa-python" style="color: #3572A5;"></i> Zulip Server & API</span>
+                            <span class="oss-tag">Python</span>
+                        </div>
+                        <p class="oss-desc">Direct message type dispatching, bot asset management, and fail-fast client optimizations.</p>
+                    </a>
+                    <a href="https://github.com/SPY-Github22/Heliox-OS" target="_blank" rel="noopener" class="oss-item">
+                        <div class="oss-item-top">
+                            <span class="oss-repo-name"><i class="fab fa-python" style="color: #3572A5;"></i> Heliox-OS</span>
+                            <span class="oss-tag">Merged PR #155</span>
+                        </div>
+                        <p class="oss-desc">Added smooth-scrolling chat panel FAB with flicker-guarded transition triggers.</p>
+                    </a>
+                    <a href="https://github.com/SPY-Github22/ZerithDB" target="_blank" rel="noopener" class="oss-item">
+                        <div class="oss-item-top">
+                            <span class="oss-repo-name"><i class="fab fa-js" style="color: #f7df1e;"></i> ZerithDB</span>
+                            <span class="oss-tag">Merged PR #593</span>
+                        </div>
+                        <p class="oss-desc">Hardened client SDK validation for createApp initialization parameters.</p>
+                    </a>
                 </div>
             </div>
         </div>
