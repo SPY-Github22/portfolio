@@ -115,9 +115,7 @@
             <div class="about-grid">
                 <div class="about-image reveal">
                     <div class="image-wrapper">
-                        <div class="image-placeholder">
-                            <i class="fas fa-code"></i>
-                        </div>
+                        <img src="assets/avatar.jpg" alt="Sudarshan Pai Y" class="about-avatar-img" onerror="this.style.display='none';">
                         <div class="image-border"></div>
                         <div class="image-glow"></div>
                     </div>
@@ -193,36 +191,44 @@
             <div class="projects-grid">
                 <!-- 1. BhuRakshak (SIH Flagship) -->
                 <div class="project-card featured-wide reveal" data-category="ai">
-                    <div>
-                        <div class="project-meta-bar">
-                            <span class="project-domain-tag"><i class="fas fa-mountain"></i> Geospatial &amp; Environmental AI</span>
-                            <span class="project-status-pill gold"><i class="fas fa-trophy"></i> SIH 2026 Finalist</span>
+                    <div class="featured-content-layout">
+                        <div class="featured-text">
+                            <div class="project-meta-bar">
+                                <span class="project-domain-tag"><i class="fas fa-mountain"></i> Geospatial &amp; Environmental AI</span>
+                                <span class="project-status-pill gold"><i class="fas fa-trophy"></i> SIH 2026 Finalist</span>
+                            </div>
+                            <h3 class="project-title">BhuRakshak (भूरक्षक) — Landslide Risk Monitoring &amp; Early Warning</h3>
+                            <p class="project-description">
+                                A 4-layer predictive disaster protection system for North-East India fusing rainfall nowcasts, calibrated ML with rainfall hysteresis, Sentinel-1 InSAR creep anomalies, and high-risk evacuation routing. Features PostGIS/TimescaleDB hypertables, Martin vector tiles, MapLibre 3D command center, and an offline Field PWA.
+                            </p>
+                            <div class="project-tech-stack">
+                                <span class="project-tech-pill">FastAPI</span>
+                                <span class="project-tech-pill">Next.js 14</span>
+                                <span class="project-tech-pill">PostgreSQL / PostGIS</span>
+                                <span class="project-tech-pill">TimescaleDB</span>
+                                <span class="project-tech-pill">Sentinel-1 InSAR</span>
+                                <span class="project-tech-pill">MapLibre 3D</span>
+                                <span class="project-tech-pill">Celery / Redis</span>
+                                <span class="project-tech-pill">Offline PWA</span>
+                            </div>
+                            <div class="project-actions">
+                                <a href="https://github.com/SPY-Github22/bhrakshak-v2" target="_blank" rel="noopener" class="btn btn-primary btn-sm">
+                                    <i class="fab fa-github"></i> View Repository
+                                </a>
+                                <span class="project-status-pill emerald"><i class="fas fa-check-circle"></i> Production Ready</span>
+                            </div>
                         </div>
-                        <h3 class="project-title">BhuRakshak (भूरक्षक) — Landslide Risk Monitoring &amp; Early Warning</h3>
-                        <p class="project-description">
-                            A 4-layer predictive disaster protection system for North-East India fusing rainfall nowcasts, calibrated ML with rainfall hysteresis, Sentinel-1 InSAR creep anomalies, and high-risk evacuation routing. Features PostGIS/TimescaleDB hypertables, Martin vector tiles, MapLibre 3D command center, and an offline Field PWA.
-                        </p>
-                        <div class="project-tech-stack">
-                            <span class="project-tech-pill">FastAPI</span>
-                            <span class="project-tech-pill">Next.js 14</span>
-                            <span class="project-tech-pill">PostgreSQL / PostGIS</span>
-                            <span class="project-tech-pill">TimescaleDB</span>
-                            <span class="project-tech-pill">Sentinel-1 InSAR</span>
-                            <span class="project-tech-pill">MapLibre 3D</span>
-                            <span class="project-tech-pill">Celery / Redis</span>
-                            <span class="project-tech-pill">Offline PWA</span>
+                        <div class="featured-thumb">
+                            <img src="assets/projects/bhurakshak.png" alt="BhuRakshak Landslide Early Warning System Command Center" loading="lazy">
                         </div>
-                    </div>
-                    <div class="project-actions">
-                        <a href="https://github.com/SPY-Github22/bhrakshak-v2" target="_blank" rel="noopener" class="btn btn-primary btn-sm">
-                            <i class="fab fa-github"></i> View Repository
-                        </a>
-                        <span class="project-status-pill emerald"><i class="fas fa-check-circle"></i> Production Ready</span>
                     </div>
                 </div>
 
                 <!-- 2. RailTwin 3D -->
                 <div class="project-card reveal" data-category="spatial">
+                    <div class="project-thumb">
+                        <img src="assets/projects/railtwin.png" alt="RailTwin 3D Dadar Junction Digital Twin" loading="lazy">
+                    </div>
                     <div>
                         <div class="project-meta-bar">
                             <span class="project-domain-tag"><i class="fas fa-train"></i> Spatial Systems &amp; Digital Twins</span>
@@ -250,6 +256,9 @@
 
                 <!-- 3. Coral Bleaching Predictor -->
                 <div class="project-card reveal" data-category="ai">
+                    <div class="project-thumb">
+                        <img src="assets/projects/coral-bleaching.png" alt="Coral Bleaching &amp; Reef Degradation Predictor Model" loading="lazy">
+                    </div>
                     <div>
                         <div class="project-meta-bar">
                             <span class="project-domain-tag"><i class="fas fa-water"></i> Marine Ecology &amp; Machine Learning</span>
@@ -278,6 +287,9 @@
 
                 <!-- 4. APEX Prime 2 -->
                 <div class="project-card reveal" data-category="spatial">
+                    <div class="project-thumb">
+                        <img src="assets/projects/apex-prime.png" alt="APEX Prime 2: Void Vanguard 3D Combat Simulator" loading="lazy">
+                    </div>
                     <div>
                         <div class="project-meta-bar">
                             <span class="project-domain-tag"><i class="fas fa-gamepad"></i> Real-Time Graphics &amp; WebGL</span>
@@ -307,6 +319,9 @@
 
                 <!-- 5. PortPilot -->
                 <div class="project-card reveal" data-category="systems">
+                    <div class="project-thumb">
+                        <img src="assets/projects/portpilot.png" alt="PortPilot Developer Process &amp; Port Management" loading="lazy">
+                    </div>
                     <div>
                         <div class="project-meta-bar">
                             <span class="project-domain-tag"><i class="fas fa-shield-alt"></i> Systems &amp; Process Management</span>
@@ -347,14 +362,14 @@
                 <div class="oss-grid">
                     <a href="https://github.com/SPY-Github22/datafusion" target="_blank" rel="noopener" class="oss-item">
                         <div class="oss-item-top">
-                            <span class="oss-repo-name"><i class="fab fa-rust" style="color: #dea584;"></i> Apache DataFusion</span>
+                            <span class="oss-repo-name"><img src="assets/logos/datafusion.png" alt="Apache DataFusion" class="oss-logo-img"> Apache DataFusion</span>
                             <span class="oss-tag">Rust</span>
                         </div>
                         <p class="oss-desc">Scalar decimal zero-row evaluation handling for high-performance vectorized query execution.</p>
                     </a>
                     <a href="https://github.com/SPY-Github22/zulip" target="_blank" rel="noopener" class="oss-item">
                         <div class="oss-item-top">
-                            <span class="oss-repo-name"><i class="fab fa-python" style="color: #3572A5;"></i> Zulip Server & API</span>
+                            <span class="oss-repo-name"><img src="assets/logos/zulip.svg" alt="Zulip" class="oss-logo-img"> Zulip Server &amp; API</span>
                             <span class="oss-tag">Python</span>
                         </div>
                         <p class="oss-desc">Direct message type dispatching, bot asset management, and fail-fast client optimizations.</p>
