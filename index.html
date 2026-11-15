@@ -8,10 +8,21 @@
     <meta name="keywords" content="AI Developer, Software Developer, Machine Learning, Python, Web Development, Sudarshan Pai Y">
     <meta name="author" content="Sudarshan Pai Y">
 
-    <!-- Open Graph -->
-    <meta property="og:title" content="Sudarshan Pai Y — AI & Software Developer">
-    <meta property="og:description" content="Computer science student building AI-powered tools that solve real-world problems.">
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230f172a'/><text x='50' y='68' font-family='sans-serif' font-size='56' font-weight='800' fill='%232563eb' text-anchor='middle'>S</text></svg>">
+
+    <!-- Open Graph & Social Cards -->
+    <meta property="og:title" content="Sudarshan Pai Y — AI &amp; Software Developer">
+    <meta property="og:description" content="Portfolio of Sudarshan Pai Y — AI systems, 3D spatial twins, and open-source contributions.">
     <meta property="og:type" content="website">
+    <meta property="og:url" content="https://spy-github22.github.io/portfolio/">
+    <meta property="og:image" content="https://spy-github22.github.io/portfolio/hero-bg.png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Sudarshan Pai Y — AI &amp; Software Developer">
+    <meta name="twitter:description" content="Portfolio of Sudarshan Pai Y — AI systems, 3D spatial twins, and open-source contributions.">
+    <meta name="twitter:image" content="https://spy-github22.github.io/portfolio/hero-bg.png">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -497,22 +508,22 @@
                     <form id="directContactForm">
                         <div class="form-group">
                             <label for="senderName" class="form-label">Your Name</label>
-                            <input type="text" id="senderName" class="form-input" placeholder="e.g. Alex Mercer" required>
+                            <input type="text" id="senderName" name="name" autocomplete="name" class="form-input" placeholder="e.g. Alex Mercer" required>
                         </div>
 
                         <div class="form-group">
                             <label for="senderEmail" class="form-label">Your Email</label>
-                            <input type="email" id="senderEmail" class="form-input" placeholder="e.g. alex@company.com" required>
+                            <input type="email" id="senderEmail" name="email" autocomplete="email" class="form-input" placeholder="e.g. alex@company.com" required>
                         </div>
 
                         <div class="form-group">
                             <label for="messageSubject" class="form-label">Subject</label>
-                            <input type="text" id="messageSubject" class="form-input" value="Opportunity / Role Inquiry" required>
+                            <input type="text" id="messageSubject" name="subject" class="form-input" value="Opportunity / Role Inquiry" required>
                         </div>
 
                         <div class="form-group">
                             <label for="messageBody" class="form-label">Message</label>
-                            <textarea id="messageBody" class="form-textarea" placeholder="Hi Sudarshan, I saw your work on BhuRakshak and RailTwin..." required></textarea>
+                            <textarea id="messageBody" name="message" class="form-textarea" placeholder="Hi Sudarshan, I saw your work on BhuRakshak and RailTwin..." required></textarea>
                         </div>
 
                         <div class="form-submit-row">

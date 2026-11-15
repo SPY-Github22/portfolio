@@ -59,29 +59,50 @@ if (initPrompt) {
   });
 }
 
-// Step 4: The "PRESS ENTER" / Start Button
+// Step 4: The "PRESS ENTER" / Start Button Function
 // Transitions the user from the Intro Screen to the Grid View
-if (btnIntroStart) {
-  btnIntroStart.addEventListener('click', () => {
-    let tl = gsap.timeline();
-    
-    // Quick white flash effect to transition scenes
-    tl.to('#flash', { opacity: 1, duration: 0.1, onStart: () => {
-       if (typeof sounds !== 'undefined' && sounds.systemAccess) sounds.systemAccess();
-    }})
-      .to('#flash', { opacity: 0, duration: 0.5 });
-      
-    // Execute the layout swap behind the flash
-    tl.add(() => {
-      if(introScreen) introScreen.style.display = 'none';
-      if(gamedevSection) gamedevSection.style.display = 'grid';
-      
-      // Save state so refreshing the page skips the intro sequence
-      sessionStorage.setItem('gd_page', 'grid');
-      
-      // Initialize and animate the grid cards
-      if (typeof triggerReveal === 'function') triggerReveal();
-    });
+function enterSystem() {
+  if (!introScreen || introScreen.style.display === 'none') return;
+
+  // Ensure audio context is ready on user gesture
+  if (typeof audioCtx === 'undefined' || !audioCtx) {
+    if (typeof initAudio === 'function') initAudio();
+  }
+  if (typeof audioCtx !== 'undefined' && audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+
+  let tl = gsap.timeline();
+
+  // Quick white flash effect to transition scenes
+  tl.to('#flash', { opacity: 1, duration: 0.1, onStart: () => {
+     if (typeof sounds !== 'undefined' && sounds.systemAccess) sounds.systemAccess();
+  }})
+    .to('#flash', { opacity: 0, duration: 0.5 });
+
+  // Execute the layout swap behind the flash
+  tl.add(() => {
+    if (introScreen) introScreen.style.display = 'none';
+    if (gamedevSection) gamedevSection.style.display = 'grid';
+
+    // Save state so refreshing the page skips the intro sequence
+    sessionStorage.setItem('gd_page', 'grid');
+
+    // Initialize and animate the grid cards
+    if (typeof triggerReveal === 'function') triggerReveal();
   });
 }
+
+if (btnIntroStart) {
+  btnIntroStart.addEventListener('click', enterSystem);
+}
+
+// Step 5: Global Keydown Listener honoring "PRESS ENTER TO ACCESS THE SYSTEM"
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    if (introScreen && introScreen.style.display !== 'none') {
+      enterSystem();
+    }
+  }
+});
 

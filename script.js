@@ -110,7 +110,14 @@ function showToast(message) {
         animationId = requestAnimationFrame(animate);
     }
 
-    window.addEventListener('resize', () => { resize(); init(); });
+    let lastWidth = window.innerWidth;
+    window.addEventListener('resize', () => {
+        // Prevent mobile scroll bar collapse/expand from thrashing particle allocations
+        if (window.innerWidth === lastWidth) return;
+        lastWidth = window.innerWidth;
+        resize();
+        init();
+    });
     canvas.addEventListener('mousemove', e => { mouse.x = e.x; mouse.y = e.y; });
     canvas.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
 
@@ -290,7 +297,43 @@ function showToast(message) {
 })();
 
 /* ========================================================
-   8. 1-CLICK EMAIL COPY MODULE
+   8. CLIPBOARD UTILITY WITH RESILIENT FALLBACK
+   ======================================================== */
+function copyTextToClipboard(text, onSuccess, onFailure) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text)
+            .then(onSuccess)
+            .catch(() => {
+                fallbackCopyText(text, onSuccess, onFailure);
+            });
+    } else {
+        fallbackCopyText(text, onSuccess, onFailure);
+    }
+}
+
+function fallbackCopyText(text, onSuccess, onFailure) {
+    try {
+        const temp = document.createElement('textarea');
+        temp.value = text;
+        temp.style.position = 'fixed';
+        temp.style.top = '0';
+        temp.style.left = '0';
+        temp.style.opacity = '0';
+        temp.style.pointerEvents = 'none';
+        document.body.appendChild(temp);
+        temp.focus();
+        temp.select();
+        const successful = document.execCommand('copy');
+        document.body.removeChild(temp);
+        if (successful && typeof onSuccess === 'function') onSuccess();
+        else if (typeof onFailure === 'function') onFailure();
+    } catch (err) {
+        if (typeof onFailure === 'function') onFailure();
+    }
+}
+
+/* ========================================================
+   9. 1-CLICK EMAIL COPY MODULE
    ======================================================== */
 (function () {
     const btnCopyEmail = document.getElementById('btnCopyEmail');
@@ -299,7 +342,7 @@ function showToast(message) {
 
     btnCopyEmail.addEventListener('click', () => {
         const email = displayEmail.textContent.trim();
-        navigator.clipboard.writeText(email).then(() => {
+        copyTextToClipboard(email, () => {
             btnCopyEmail.classList.add('copied');
             btnCopyEmail.innerHTML = '<i class="fas fa-check"></i> <span>Copied!</span>';
             showToast('Email copied to clipboard: ' + email);
@@ -308,14 +351,14 @@ function showToast(message) {
                 btnCopyEmail.classList.remove('copied');
                 btnCopyEmail.innerHTML = '<i class="fas fa-copy"></i> <span>Copy</span>';
             }, 2500);
-        }).catch(() => {
+        }, () => {
             showToast('Email: ' + email);
         });
     });
 })();
 
 /* ========================================================
-   9. INTERACTIVE DIRECT MESSAGE FORM & TOPIC SELECTORS
+   10. INTERACTIVE DIRECT MESSAGE FORM & TOPIC SELECTORS
    ======================================================== */
 (function () {
     const chips = document.querySelectorAll('.subject-chip');
@@ -346,7 +389,7 @@ function showToast(message) {
         return { name, email, subject, body, formatted };
     }
 
-    // Copy draft button handler
+    // Copy draft button handler with rejection fallback
     if (btnCopyDraft) {
         btnCopyDraft.addEventListener('click', () => {
             const draft = getMessageDraft();
@@ -354,12 +397,14 @@ function showToast(message) {
                 showToast('Please type a message first!');
                 return;
             }
-            navigator.clipboard.writeText(draft.formatted).then(() => {
+            copyTextToClipboard(draft.formatted, () => {
                 btnCopyDraft.innerHTML = '<i class="fas fa-check"></i> Draft Copied!';
                 showToast('Draft message copied to clipboard!');
                 setTimeout(() => {
                     btnCopyDraft.innerHTML = '<i class="fas fa-clipboard"></i> Copy Draft';
                 }, 2500);
+            }, () => {
+                showToast('Draft ready. Please select and copy manually.');
             });
         });
     }
@@ -376,7 +421,24 @@ function showToast(message) {
             }
 
             const recipient = 'sudarshan.pai.y@gmail.com';
-            const mailtoUrl = `mailto:${recipient}?subject=${encodeURIComponent(draft.subject)}&body=${encodeURIComponent(draft.formatted)}`;
+            const mailtoUrl = `mailto:${recipient}?subject=${encodeURIComponent(draft.subject)}&body=${encodeURIComponent(draft.formatted.replace(/\n/g, '\r\n'))}`;
+
+            // Guard against protocol length limits (> 1800 chars)
+            if (mailtoUrl.length > 1800) {
+                copyTextToClipboard(draft.formatted, () => {
+                    if (feedback) {
+                        feedback.className = 'form-feedback success';
+                        feedback.innerHTML = `
+                            <strong><i class="fas fa-info-circle"></i> Long draft copied to clipboard!</strong><br>
+                            Your message exceeds standard browser URL limits (1,800+ chars). It has been copied to your clipboard so you can paste it directly into an email to <code>${recipient}</code>.
+                        `;
+                    }
+                    showToast('Long draft copied to clipboard!');
+                }, () => {
+                    showToast('Message exceeds mailto limit. Please copy draft.');
+                });
+                return;
+            }
 
             // Launch default mail client
             window.location.href = mailtoUrl;
